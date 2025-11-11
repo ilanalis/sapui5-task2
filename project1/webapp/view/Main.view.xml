@@ -2,5 +2,45 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
+        <Table 
+            id="booksList" 
+            items='{/books}'>
+            <columns>
+                <Column 
+                hAlign="End"
+                minScreenWidth="Small"
+                demandPopin="true"
+                width="5em">
+                    <Text  text="{i18n>columnAvailableQuantity}"/>
+                </Column>
+                <Column >
+                    <Text text="{i18n>columnName}" />
+                </Column>
+                <Column >
+                    <Text text="{i18n>columnAuthor}"  />
+                </Column>
+                <Column demandPopin="true" minScreenWidth="Small">
+                    <Text text="{i18n>columnGenre}" />
+                </Column>
+                <Column demandPopin="true" minScreenWidth="Small">
+                    <Text text="{i18n>columnReleaseDate}" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem >
+                    <cells>
+                        <ObjectNumber
+                    number="{availableQuantity}"
+						emphasized="false"/>
+                        <ObjectIdentifier title="{name}" />
+                        <Text text="{author}"></Text>
+                        <Text text="{genre}"></Text>
+                        <Text 
+                            text="{releaseDate}"
+                        ></Text>
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
     </Page>
 </mvc:View>
