@@ -4,13 +4,13 @@
     <Page id="page" title="{i18n>title}">
         <Table 
             id="booksList" 
-            items='{/books}'>
+            items='{booksModel>/books}'>
             <columns>
                 <Column 
-                hAlign="End"
-                minScreenWidth="Small"
-                demandPopin="true"
-                width="5em">
+                    hAlign="End"
+                    minScreenWidth="Small"
+                    demandPopin="true"
+                    width="5em">
                     <Text  text="{i18n>columnAvailableQuantity}"/>
                 </Column>
                 <Column >
@@ -30,13 +30,13 @@
                 <ColumnListItem >
                     <cells>
                         <ObjectNumber
-                    number="{availableQuantity}"
-						emphasized="false"/>
-                        <ObjectIdentifier title="{name}" />
-                        <Text text="{author}"/>
-                        <Text text="{genre}"/>
+                            number="{booksModel>availableQuantity}"
+						    emphasized="false"/>
+                        <ObjectIdentifier title="{booksModel>name}" />
+                        <Text text="{booksModel>author}"/>
+                        <Text text="{booksModel>genre}"/>
                         <Text 
-                            text="{releaseDate}"
+                            text="{booksModel>releaseDate}"
                         />
                     </cells>
                 </ColumnListItem>
