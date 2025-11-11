@@ -33,11 +33,11 @@
                     number="{availableQuantity}"
 						emphasized="false"/>
                         <ObjectIdentifier title="{name}" />
-                        <Text text="{author}"></Text>
-                        <Text text="{genre}"></Text>
+                        <Text text="{author}"/>
+                        <Text text="{genre}"/>
                         <Text 
                             text="{releaseDate}"
-                        ></Text>
+                        />
                     </cells>
                 </ColumnListItem>
             </items>
