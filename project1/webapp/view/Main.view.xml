@@ -1,10 +1,28 @@
-<mvc:View controllerName="project1.controller.Main"
+<mvc:View 
+    xmlns:core="sap.ui.core" 
+    controllerName="project1.controller.Main"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
         <Table 
             id="booksList" 
-            items='{booksModel>/books}'>
+            items='{booksModel>/books}'
+            mode="MultiSelect">
+            <headerToolbar>
+                <Toolbar >
+                    <Title text="{i18n>booksTitle}"/>
+                    <ToolbarSpacer/>
+                    <Input width="50%" id="titleInput" placeholder="{i18n>inputPlaceholder}"/>
+                    <Label text="Genre" labelFor="genreSelect" />
+                    <Select id="genreSelect" items="{booksModel>/genres}">
+                        <core:ListItem key="{booksModel>}" text="{booksModel>}"></core:ListItem>
+                    </Select>
+                    <Button text="{i18n>buttonFilter}" press=".onFilter"/>
+                    <ToolbarSeparator />
+                    <Button text="{i18n>buttonAddRecord}" press=".onAddRecord"/>
+                    <Button text="{i18n>buttonDeleteRecord}" press=".onDeleteRecord"/>
+                </Toolbar>
+            </headerToolbar>
             <columns>
                 <Column 
                     hAlign="End"
@@ -30,14 +48,12 @@
                 <ColumnListItem >
                     <cells>
                         <ObjectNumber
-                            number="{booksModel>availableQuantity}"
-						    emphasized="false"/>
+                number="{booksModel>availableQuantity}"
+                emphasized="false"/>
                         <ObjectIdentifier title="{booksModel>name}" />
                         <Text text="{booksModel>author}"/>
                         <Text text="{booksModel>genre}"/>
-                        <Text 
-                            text="{booksModel>releaseDate}"
-                        />
+                        <Text text="{booksModel>releaseDate}"/>
                     </cells>
                 </ColumnListItem>
             </items>
