@@ -43,17 +43,27 @@
                 <Column demandPopin="true" minScreenWidth="Small">
                     <Text text="{i18n>columnReleaseDate}" />
                 </Column>
+                <Column width="10em">
+                    <Text text="{i18n>columnActions}" />
+                </Column>
             </columns>
             <items>
                 <ColumnListItem >
                     <cells>
                         <ObjectNumber
-                number="{booksModel>availableQuantity}"
-                emphasized="false"/>
-                        <ObjectIdentifier title="{booksModel>name}" />
+                            number="{booksModel>availableQuantity}"
+                            emphasized="false"/>
+                        <HBox >
+                            <ObjectIdentifier visible="{= !${booksModel>isEditing}}" title="{booksModel>name}" />
+                            <Input visible="{booksModel>isEditing}" value="{booksModel>name}" />
+                        </HBox>
                         <Text text="{booksModel>author}"/>
                         <Text text="{booksModel>genre}"/>
                         <Text text="{booksModel>releaseDate}"/>
+                        <HBox >
+                            <Button text="{i18n>buttonEditTitle}" visible="{= !${booksModel>isEditing}}"  press=".onEdit"/>
+                            <Button text="{i18n>buttonSaveEditedTitle}" visible="{booksModel>isEditing}" press=".onSave"/>
+                        </HBox>
                     </cells>
                 </ColumnListItem>
             </items>

@@ -23,6 +23,7 @@ sap.ui.define(
               genre: "Historical novel",
               releaseDate: "1846",
               availableQuantity: 4,
+              isEditing: false,
             },
             {
               id: "book-2",
@@ -31,6 +32,7 @@ sap.ui.define(
               genre: "Southern Gothic",
               releaseDate: "1960",
               availableQuantity: 7,
+              isEditing: false,
             },
             {
               id: "book-3",
@@ -39,6 +41,7 @@ sap.ui.define(
               genre: "Realist novel",
               releaseDate: "1857",
               availableQuantity: 3,
+              isEditing: false,
             },
             {
               id: "book-4",
@@ -47,6 +50,7 @@ sap.ui.define(
               genre: "Crime",
               releaseDate: "2020",
               availableQuantity: 5,
+              isEditing: false,
             },
             {
               id: "book-5",
@@ -55,6 +59,7 @@ sap.ui.define(
               genre: "Horror",
               releaseDate: "1981",
               availableQuantity: 2,
+              isEditing: false,
             },
             {
               id: "book-6",
@@ -63,6 +68,7 @@ sap.ui.define(
               genre: "Horror",
               releaseDate: "1897",
               availableQuantity: 3,
+              isEditing: false,
             },
             {
               id: "book-7",
@@ -71,6 +77,7 @@ sap.ui.define(
               genre: "Crime",
               releaseDate: "1866",
               availableQuantity: 6,
+              isEditing: false,
             },
             {
               id: "book-8",
@@ -79,6 +86,7 @@ sap.ui.define(
               genre: "Historical novel",
               releaseDate: "1869",
               availableQuantity: 5,
+              isEditing: false,
             },
             {
               id: "book-9",
@@ -87,6 +95,7 @@ sap.ui.define(
               genre: "Realist novel",
               releaseDate: "1813",
               availableQuantity: 4,
+              isEditing: false,
             },
             {
               id: "book-10",
@@ -95,6 +104,7 @@ sap.ui.define(
               genre: "Horror",
               releaseDate: "1818",
               availableQuantity: 2,
+              isEditing: false,
             },
           ],
           genres: [
@@ -107,7 +117,6 @@ sap.ui.define(
           ],
         };
         const oModel = new JSONModel(oBooks);
-
         return oModel;
       },
     };

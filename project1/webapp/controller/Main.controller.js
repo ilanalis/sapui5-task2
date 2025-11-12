@@ -54,6 +54,21 @@ sap.ui.define(
         const oBinding = oList.getBinding("items");
         oBinding.filter(aFilter);
       },
+
+      onEdit(oEvent) {
+        this.changeBooksModelEditMode(oEvent, true);
+      },
+
+      onSave(oEvent) {
+        this.changeBooksModelEditMode(oEvent, false);
+      },
+
+      changeBooksModelEditMode(oEvent, mode) {
+        const context = oEvent.getSource().getBindingContext("booksModel");
+        const sPath = context.getPath();
+        const booksModel = this.getModel("booksModel");
+        booksModel.setProperty(`${sPath}/isEditing`, mode);
+      },
     });
   }
 );
