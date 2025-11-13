@@ -10,36 +10,37 @@ sap.ui.define(
     return BaseController.extend("project1.controller.Main", {
       onInit() {},
 
-      onAddRecord() {
-        const bookModel = this.getModel("booksModel");
-        const aBooks = bookModel.getProperty("/books");
-        const newBook = {
+      onAddRecordButtonPress() {
+        const oBookModel = this.getModel("booksModel");
+        const aBooks = oBookModel.getProperty("/books");
+        const oNewBook = {
           id: `book-${Date.now()}`,
+          isEditMode: false,
         };
-        aBooks.push(newBook);
-        bookModel.setProperty("/books", aBooks);
+        aBooks.push(oNewBook);
+        oBookModel.setProperty("/books", aBooks);
       },
 
-      onDeleteRecord() {
-        const bookModel = this.getModel("booksModel");
-        let aBooks = bookModel.getProperty("/books");
+      onDeleteRecordButtonPress() {
+        const oBookModel = this.getModel("booksModel");
+        let aBooks = oBookModel.getProperty("/books");
         const oBooksList = this.byId("booksList");
-        const aSelectetBooks = oBooksList.getSelectedContexts();
+        const aSelectedBooks = oBooksList.getSelectedContexts();
 
-        const aSelectedBookIds = aSelectetBooks.map(
+        const aSelectedBookIds = aSelectedBooks.map(
           (ctx) => ctx.getObject().id
         );
         aBooks = aBooks.filter((book) => !aSelectedBookIds.includes(book.id));
-        bookModel.setProperty("/books", aBooks);
+        oBookModel.setProperty("/books", aBooks);
         oBooksList.removeSelections(true);
       },
 
-      onFilter() {
+      onFilterButtonPress() {
         const aFilter = [];
-        const titleInput = this.byId("titleInut");
-        const genreSelect = this.byId("genreSelect");
-        const sSearchTitle = titleInput.getValue();
-        const sSelectedGenre = genreSelect.getSelectedItem().getKey();
+        const oTitleInput = this.byId("titleInput");
+        const oGenreSelect = this.byId("genreSelect");
+        const sSearchTitle = oTitleInput.getValue();
+        const sSelectedGenre = oGenreSelect.getSelectedItem().getKey();
 
         if (sSearchTitle) {
           aFilter.push(
@@ -53,6 +54,21 @@ sap.ui.define(
         const oList = this.byId("booksList");
         const oBinding = oList.getBinding("items");
         oBinding.filter(aFilter);
+      },
+
+      onEditTitleButtonPress(oEvent) {
+        this.setTitleEditMode(oEvent, true);
+      },
+
+      onSaveTitleButtonPress(oEvent) {
+        this.setTitleEditMode(oEvent, false);
+      },
+
+      setTitleEditMode(oEvent, bMode) {
+        const oContext = oEvent.getSource().getBindingContext("booksModel");
+        const sPath = oContext.getPath();
+        const oBooksModel = this.getModel("booksModel");
+        oBooksModel.setProperty(`${sPath}/isEditMode`, bMode);
       },
     });
   }
