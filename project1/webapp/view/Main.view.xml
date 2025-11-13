@@ -17,10 +17,10 @@
                     <Select id="genreSelect" items="{booksModel>/genres}">
                         <core:ListItem key="{booksModel>}" text="{booksModel>}"></core:ListItem>
                     </Select>
-                    <Button text="{i18n>buttonFilter}" press=".onFilter"/>
+                    <Button text="{i18n>filterButtonText}" press=".onFilterButtonPress"/>
                     <ToolbarSeparator />
-                    <Button text="{i18n>buttonAddRecord}" press=".onAddRecord"/>
-                    <Button text="{i18n>buttonDeleteRecord}" press=".onDeleteRecord"/>
+                    <Button text="{i18n>addRecordButtonText}" press=".onAddRecordButtonPress"/>
+                    <Button text="{i18n>deleteRecordButtonText}" press=".onDeleteRecordButtonPress"/>
                 </Toolbar>
             </headerToolbar>
             <columns>
@@ -54,15 +54,15 @@
                             number="{booksModel>availableQuantity}"
                             emphasized="false"/>
                         <HBox >
-                            <ObjectIdentifier visible="{= !${booksModel>isEditing}}" title="{booksModel>name}" />
-                            <Input visible="{booksModel>isEditing}" value="{booksModel>name}" />
+                            <ObjectIdentifier visible="{= !${booksModel>isEditMode}}" title="{booksModel>name}" />
+                            <Input visible="{booksModel>isEditMode}" value="{booksModel>name}" />
                         </HBox>
                         <Text text="{booksModel>author}"/>
                         <Text text="{booksModel>genre}"/>
                         <Text text="{booksModel>releaseDate}"/>
                         <HBox >
-                            <Button text="{i18n>buttonEditTitle}" visible="{= !${booksModel>isEditing}}"  press=".onEdit"/>
-                            <Button text="{i18n>buttonSaveEditedTitle}" visible="{booksModel>isEditing}" press=".onSave"/>
+                            <Button text="{i18n>editTitleButtonText}" visible="{= !${booksModel>isEditMode}}"  press=".onEditTitleButtonPress"/>
+                            <Button text="{i18n>saveTitleButtonText}" visible="{booksModel>isEditMode}" press=".onSaveTitleButtonPress"/>
                         </HBox>
                     </cells>
                 </ColumnListItem>
