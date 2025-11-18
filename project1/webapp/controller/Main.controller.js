@@ -3,8 +3,10 @@ sap.ui.define(
     "project1/controller/BaseController",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
+    "sap/m/MessageBox",
+    "sap/m/MessageToast",
   ],
-  (BaseController, Filter, FilterOperator) => {
+  (BaseController, Filter, FilterOperator, MessageBox, MessageToast) => {
     "use strict";
 
     return BaseController.extend("project1.controller.Main", {
@@ -26,13 +28,29 @@ sap.ui.define(
         let aBooks = oBookModel.getProperty("/books");
         const oBooksList = this.byId("booksList");
         const aSelectedBooks = oBooksList.getSelectedContexts();
-
         const aSelectedBookIds = aSelectedBooks.map(
           (ctx) => ctx.getObject().id
         );
-        aBooks = aBooks.filter((book) => !aSelectedBookIds.includes(book.id));
-        oBookModel.setProperty("/books", aBooks);
-        oBooksList.removeSelections(true);
+
+        if (aSelectedBookIds.length === 0) return;
+
+        MessageBox.confirm(
+          "Are you sure you want to delete selected records?",
+          {
+            actions: ["Yes", "No"],
+            emphasizedAction: "Yes",
+            onClose: (sAction) => {
+              if (sAction === "Yes") {
+                const aUpdatedBooks = aBooks.filter(
+                  (book) => !aSelectedBookIds.includes(book.id)
+                );
+                oBookModel.setProperty("/books", aUpdatedBooks);
+                oBooksList.removeSelections(true);
+                MessageToast.show("Records are deleted successfully");
+              }
+            },
+          }
+        );
       },
 
       onFilterButtonPress() {
