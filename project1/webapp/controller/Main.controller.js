@@ -24,6 +24,7 @@ sap.ui.define(
       },
 
       onDeleteRecordButtonPress() {
+        const oReourceBundle = this.getModel("i18n").getResourceBundle();
         const oBookModel = this.getModel("booksModel");
         let aBooks = oBookModel.getProperty("/books");
         const oBooksList = this.byId("booksList");
@@ -32,21 +33,21 @@ sap.ui.define(
           (ctx) => ctx.getObject().id
         );
 
-        if (aSelectedBookIds.length === 0) return;
-
         MessageBox.confirm(
-          "Are you sure you want to delete selected records?",
+          oReourceBundle.getText("deleteRecordsConfirmationText"),
           {
-            actions: ["Yes", "No"],
-            emphasizedAction: "Yes",
+            actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+            emphasizedAction: MessageBox.Action.YES,
             onClose: (sAction) => {
-              if (sAction === "Yes") {
+              if (sAction === MessageBox.Action.YES) {
                 const aUpdatedBooks = aBooks.filter(
                   (book) => !aSelectedBookIds.includes(book.id)
                 );
                 oBookModel.setProperty("/books", aUpdatedBooks);
                 oBooksList.removeSelections(true);
-                MessageToast.show("Records are deleted successfully");
+                MessageToast.show(
+                  oReourceBundle.getText("recordsDeletedSuccess")
+                );
               }
             },
           }
@@ -87,6 +88,13 @@ sap.ui.define(
         const sPath = oContext.getPath();
         const oBooksModel = this.getModel("booksModel");
         oBooksModel.setProperty(`${sPath}/isEditMode`, bMode);
+      },
+
+      onBooksTableSelectionChange(oEvent) {
+        this.getModel("booksModel").setProperty(
+          "/isDeleteButtonEnabled",
+          !!oEvent.getSource().getSelectedItems().length
+        );
       },
     });
   }

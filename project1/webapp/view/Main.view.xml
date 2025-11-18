@@ -7,7 +7,8 @@
         <Table 
             id="booksList" 
             items='{booksModel>/books}'
-            mode="MultiSelect">
+            mode="MultiSelect"
+            selectionChange=".onBooksTableSelectionChange">
             <headerToolbar>
                 <Toolbar >
                     <Title text="{i18n>booksTitle}"/>
@@ -20,7 +21,7 @@
                     <Button text="{i18n>filterButtonText}" press=".onFilterButtonPress"/>
                     <ToolbarSeparator />
                     <Button text="{i18n>addRecordButtonText}" press=".onAddRecordButtonPress"/>
-                    <Button text="{i18n>deleteRecordButtonText}" press=".onDeleteRecordButtonPress"/>
+                    <Button text="{i18n>deleteRecordButtonText}" press=".onDeleteRecordButtonPress" enabled="{= !!${booksModel>/isDeleteButtonEnabled}}"/>
                 </Toolbar>
             </headerToolbar>
             <columns>

@@ -115,6 +115,7 @@ sap.ui.define(
             "Historical novel",
             "Southern Gothic",
           ],
+          isDeleteButtonEnabled: false,
         };
         const oModel = new JSONModel(oBooks);
         return oModel;
