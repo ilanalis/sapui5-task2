@@ -10,7 +10,11 @@ sap.ui.define(
     "use strict";
 
     return BaseController.extend("project1.controller.Main", {
-      onInit() {},
+      onInit() {
+        this._oResourceBundle = this.getOwnerComponent()
+          .getModel("i18n")
+          .getResourceBundle();
+      },
 
       onAddRecordButtonPress() {
         const oBookModel = this.getModel("booksModel");
@@ -24,7 +28,24 @@ sap.ui.define(
       },
 
       onDeleteRecordButtonPress() {
-        const oReourceBundle = this.getModel("i18n").getResourceBundle();
+        MessageBox.confirm(
+          this._oResourceBundle.getText("deleteRecordsConfirmationText"),
+          {
+            actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+            emphasizedAction: MessageBox.Action.YES,
+            onClose: (sAction) => {
+              if (sAction === MessageBox.Action.YES) {
+                this._deleteSelectedRecords();
+                MessageToast.show(
+                  this._oResourceBundle.getText("recordsDeletedSuccess")
+                );
+              }
+            },
+          }
+        );
+      },
+
+      _deleteSelectedRecords() {
         const oBookModel = this.getModel("booksModel");
         let aBooks = oBookModel.getProperty("/books");
         const oBooksList = this.byId("booksList");
@@ -32,26 +53,12 @@ sap.ui.define(
         const aSelectedBookIds = aSelectedBooks.map(
           (ctx) => ctx.getObject().id
         );
-
-        MessageBox.confirm(
-          oReourceBundle.getText("deleteRecordsConfirmationText"),
-          {
-            actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-            emphasizedAction: MessageBox.Action.YES,
-            onClose: (sAction) => {
-              if (sAction === MessageBox.Action.YES) {
-                const aUpdatedBooks = aBooks.filter(
-                  (book) => !aSelectedBookIds.includes(book.id)
-                );
-                oBookModel.setProperty("/books", aUpdatedBooks);
-                oBooksList.removeSelections(true);
-                MessageToast.show(
-                  oReourceBundle.getText("recordsDeletedSuccess")
-                );
-              }
-            },
-          }
+        const aUpdatedBooks = aBooks.filter(
+          (book) => !aSelectedBookIds.includes(book.id)
         );
+
+        oBookModel.setProperty("/books", aUpdatedBooks);
+        oBooksList.removeSelections(true);
       },
 
       onFilterButtonPress() {
