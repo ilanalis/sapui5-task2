@@ -20,7 +20,7 @@
                     </Select>
                     <Button text="{i18n>filterButtonText}" press=".onFilterButtonPress"/>
                     <ToolbarSeparator />
-                    <Button text="{i18n>addRecordButtonText}" press=".onAddRecordButtonPress"/>
+                    <Button text="{i18n>addRecordButtonText}" press=".onOpenAddRecordDialog"/>
                     <Button text="{i18n>deleteRecordButtonText}" press=".onDeleteRecordButtonPress" enabled="{= !!${booksModel>/isDeleteButtonEnabled}}"/>
                 </Toolbar>
             </headerToolbar>
