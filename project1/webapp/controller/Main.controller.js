@@ -24,28 +24,43 @@ sap.ui.define(
           .getResourceBundle();
       },
 
-      async onOpenAddRecordDialog() {
-        this._oTempModel = new JSONModel({
+      _getMainDialogModelInitialData() {
+        return {
           name: { value: "", valueState: "None" },
           author: { value: "", valueState: "None" },
           genre: { value: "", valueState: "None" },
-          releaseDate: { value: "", valueState: "None" },
+          releaseDate: { value: "", valueState: "None", isValid: false },
           availableQuantity: { value: "", valueState: "None" },
-        });
-        this._oDialog ??= await this.loadFragment({
-          name: "project1.view.MainDialog",
-          controller: this,
-        });
-        this._oDialog.setModel(this._oTempModel, "temp");
-        this._bIsDateInputValid = false;
+        };
+      },
+
+      _setMainDialogModelInitialData() {
+        this._oTempModel.setData(this._getMainDialogModelInitialData());
+      },
+
+      async onAddRecordButtonPress() {
+        if (!this._oTempModel) {
+          this._oTempModel = new JSONModel(
+            this._getMainDialogModelInitialData()
+          );
+        }
+        if (!this._oDialog) {
+          this._oDialog = await this.loadFragment({
+            name: "project1.view.MainDialog",
+          });
+          this._oDialog.setModel(this._oTempModel, "temp");
+        }
         this._oDialog.open();
       },
 
       onReleaseDateChange(oEvent) {
-        this._bIsDateInputValid = oEvent.getParameter("valid");
+        this._oTempModel.setProperty(
+          "/releaseDate/isValid",
+          oEvent.getParameter("valid")
+        );
       },
 
-      onAddRecordButtonPress() {
+      onMainDialogAddRecordButtonPress() {
         if (!this._validateForm()) return;
         this.saveNewRecord();
       },
@@ -57,7 +72,7 @@ sap.ui.define(
           const oField = oData[sField];
           let bFieldValid = true;
 
-          if (!oField.value && sField !== "availableQuantity") {
+          if (!oField.value) {
             bFieldValid = false;
           }
 
@@ -74,7 +89,7 @@ sap.ui.define(
             bIsValid = false;
           }
         }
-        if (!this._bIsDateInputValid) {
+        if (!oData.releaseDate.isValid) {
           this._oTempModel.setProperty("/releaseDate/valueState", "Error");
           bIsValid = false;
         }
@@ -99,7 +114,7 @@ sap.ui.define(
         this._oDialog.close();
       },
 
-      onCancelAddingRecordButtonPress() {
+      onMainDialogCancelButtonPress() {
         this._oDialog.close();
       },
 

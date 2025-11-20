@@ -12,7 +12,7 @@
             <Input 
                 id="nameInput"  
                 value="{temp>/name/value}" 
-				placeholder="Enter name"
+				placeholder="{i18n>addMainDialogPlaceholderName}"
                 required="true" 
                 valueState="{temp>/name/valueState}"/>
             <Label 
@@ -21,7 +21,7 @@
             <Input 
                 id="authorInput" 
                 value="{temp>/author/value}" 
-				placeholder="Enter author"
+				placeholder="{i18n>addMainDialogPlaceholderAuthor}"
                 required="true" 
                 valueState="{temp>/author/valueState}"/>
             <Label 
@@ -30,7 +30,8 @@
             <Input 
                 id="genreInput" 
                 value="{temp>/genre/value}" 
-				placeholder="Enter genre"
+								placeholder="{i18n>addMainDialogPlaceholderGenre}"
+
                 required="true" 
                 valueState="{temp>/genre/valueState}"/>
             <Label 
@@ -38,11 +39,12 @@
                 labelFor="releaseDate"/>
             <DatePicker
                 id="releaseDate"
-                placeholder="Enter Date"
-                required="true" 
                 value="{temp>/releaseDate/value}" 
+                placeholder="{i18n>addMainDialogPlaceholderReleaseDate}"
+                required="true" 
                 valueState="{temp>/releaseDate/valueState}"
-                change=".onReleaseDateChange"/>
+                change=".onReleaseDateChange"
+                valueFormat="yyyy-MM-dd"/>
             <Label 
                 text="{i18n>addMainDialogLabelQuantity}" 
                 labelFor="quantityInput"/>
@@ -50,15 +52,15 @@
                 id="quantityInput" 
                 value="{temp>/availableQuantity/value}" 
                 type="Number"
-				placeholder="Enter quantity"
+				placeholder="{i18n>addMainDialogPlaceholderQuantity}"
                 required="true" 
                 valueState="{temp>/availableQuantity/valueState}"/>
         </form:SimpleForm>
         <beginButton>
-            <Button text="{i18n>addMainDialogButtonAdd}" press=".onAddRecordButtonPress"/>
+            <Button text="{i18n>addMainDialogButtonText}" press=".onMainDialogAddRecordButtonPress"/>
         </beginButton>
         <endButton>
-            <Button text="{i18n>addMainDialogButtonCancel}" press=".onCancelAddingRecordButtonPress"/>
+            <Button text="{i18n>cancelMainDialogButtonText}" press=".onMainDialogCancelButtonPress"/>
         </endButton>
     </Dialog>
 </core:FragmentDefinition>

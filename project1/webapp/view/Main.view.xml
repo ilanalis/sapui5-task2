@@ -3,71 +3,71 @@
     controllerName="project1.controller.Main"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
-        <Table 
-            id="booksList" 
-            items='{booksModel>/books}'
-            mode="MultiSelect"
-            selectionChange=".onBooksTableSelectionChange">
-            <headerToolbar>
-                <Toolbar >
-                    <Title text="{i18n>booksTitle}"/>
-                    <ToolbarSpacer/>
-                    <Input width="50%" id="titleInput" placeholder="{i18n>inputPlaceholder}"/>
-                    <Label text="Genre" labelFor="genreSelect" />
-                    <Select id="genreSelect" items="{booksModel>/genres}">
-                        <core:ListItem key="{booksModel>}" text="{booksModel>}"></core:ListItem>
-                    </Select>
-                    <Button text="{i18n>filterButtonText}" press=".onFilterButtonPress"/>
-                    <ToolbarSeparator />
-                    <Button text="{i18n>addRecordButtonText}" press=".onOpenAddRecordDialog"/>
-                    <Button text="{i18n>deleteRecordButtonText}" press=".onDeleteRecordButtonPress" enabled="{= !!${booksModel>/isDeleteButtonEnabled}}"/>
-                </Toolbar>
-            </headerToolbar>
-            <columns>
-                <Column 
-                    hAlign="End"
-                    minScreenWidth="Small"
-                    demandPopin="true"
-                    width="5em">
-                    <Text  text="{i18n>columnAvailableQuantity}"/>
-                </Column>
-                <Column >
-                    <Text text="{i18n>columnName}" />
-                </Column>
-                <Column >
-                    <Text text="{i18n>columnAuthor}"  />
-                </Column>
-                <Column demandPopin="true" minScreenWidth="Small">
-                    <Text text="{i18n>columnGenre}" />
-                </Column>
-                <Column demandPopin="true" minScreenWidth="Small">
-                    <Text text="{i18n>columnReleaseDate}" />
-                </Column>
-                <Column width="10em">
-                    <Text text="{i18n>columnActions}" />
-                </Column>
-            </columns>
-            <items>
-                <ColumnListItem >
-                    <cells>
-                        <ObjectNumber
-                            number="{booksModel>availableQuantity}"
-                            emphasized="false"/>
-                        <HBox >
-                            <ObjectIdentifier visible="{= !${booksModel>isEditMode}}" title="{booksModel>name}" />
-                            <Input visible="{booksModel>isEditMode}" value="{booksModel>name}" />
-                        </HBox>
-                        <Text text="{booksModel>author}"/>
-                        <Text text="{booksModel>genre}"/>
-                        <Text text="{booksModel>releaseDate}"/>
-                        <HBox >
-                            <Button text="{i18n>editTitleButtonText}" visible="{= !${booksModel>isEditMode}}"  press=".onEditTitleButtonPress"/>
-                            <Button text="{i18n>saveTitleButtonText}" visible="{booksModel>isEditMode}" press=".onSaveTitleButtonPress"/>
-                        </HBox>
-                    </cells>
-                </ColumnListItem>
-            </items>
-        </Table>
-    </Page>
+  <Page id="page" title="{i18n>title}">
+    <Table 
+        id="booksList" 
+        items='{booksModel>/books}'
+        mode="MultiSelect"
+        selectionChange=".onBooksTableSelectionChange">
+      <headerToolbar>
+        <Toolbar >
+          <Title text="{i18n>booksTitle}"/>
+          <ToolbarSpacer/>
+          <Input width="50%" id="titleInput" placeholder="{i18n>inputPlaceholder}"/>
+          <Label text="Genre" labelFor="genreSelect" />
+          <Select id="genreSelect" items="{booksModel>/genres}">
+            <core:ListItem key="{booksModel>}" text="{booksModel>}"></core:ListItem>
+          </Select>
+          <Button text="{i18n>filterButtonText}" press=".onFilterButtonPress"/>
+          <ToolbarSeparator />
+          <Button text="{i18n>addRecordButtonText}" press=".onAddRecordButtonPress"/>
+          <Button text="{i18n>deleteRecordButtonText}" press=".onDeleteRecordButtonPress" enabled="{= !!${booksModel>/isDeleteButtonEnabled}}"/>
+        </Toolbar>
+      </headerToolbar>
+      <columns>
+        <Column 
+            hAlign="End"
+            minScreenWidth="Small"
+            demandPopin="true"
+            width="5em">
+          <Text  text="{i18n>columnAvailableQuantity}"/>
+        </Column>
+        <Column >
+          <Text text="{i18n>columnName}" />
+        </Column>
+        <Column >
+          <Text text="{i18n>columnAuthor}"  />
+        </Column>
+        <Column demandPopin="true" minScreenWidth="Small">
+          <Text text="{i18n>columnGenre}" />
+        </Column>
+        <Column demandPopin="true" minScreenWidth="Small">
+          <Text text="{i18n>columnReleaseDate}" />
+        </Column>
+        <Column width="10em">
+          <Text text="{i18n>columnActions}" />
+        </Column>
+      </columns>
+      <items>
+        <ColumnListItem >
+          <cells>
+            <ObjectNumber
+              number="{booksModel>availableQuantity}"
+              emphasized="false"/>
+            <HBox >
+              <ObjectIdentifier visible="{= !${booksModel>isEditMode}}" title="{booksModel>name}" />
+              <Input visible="{booksModel>isEditMode}" value="{booksModel>name}" />
+            </HBox>
+            <Text text="{booksModel>author}"/>
+            <Text text="{booksModel>genre}"/>
+            <Text text="{booksModel>releaseDate}"/>
+            <HBox >
+              <Button text="{i18n>editTitleButtonText}" visible="{= !${booksModel>isEditMode}}"  press=".onEditTitleButtonPress"/>
+              <Button text="{i18n>saveTitleButtonText}" visible="{booksModel>isEditMode}" press=".onSaveTitleButtonPress"/>
+            </HBox>
+          </cells>
+        </ColumnListItem>
+      </items>
+    </Table>
+  </Page>
 </mvc:View>
