@@ -5,8 +5,16 @@ sap.ui.define(
     "sap/ui/model/FilterOperator",
     "sap/m/MessageBox",
     "sap/m/MessageToast",
+    "sap/ui/model/json/JSONModel",
   ],
-  (BaseController, Filter, FilterOperator, MessageBox, MessageToast) => {
+  (
+    BaseController,
+    Filter,
+    FilterOperator,
+    MessageBox,
+    MessageToast,
+    JSONModel
+  ) => {
     "use strict";
 
     return BaseController.extend("project1.controller.Main", {
@@ -16,15 +24,98 @@ sap.ui.define(
           .getResourceBundle();
       },
 
-      onAddRecordButtonPress() {
+      _getMainDialogModelInitialData() {
+        return {
+          name: { value: "", valueState: "None" },
+          author: { value: "", valueState: "None" },
+          genre: { value: "", valueState: "None" },
+          releaseDate: { value: "", valueState: "None", isValid: false },
+          availableQuantity: { value: "", valueState: "None" },
+        };
+      },
+
+      _setMainDialogModelInitialData() {
+        this._oTempModel.setData(this._getMainDialogModelInitialData());
+      },
+
+      async onAddRecordButtonPress() {
+        if (!this._oTempModel) {
+          this._oTempModel = new JSONModel(
+            this._getMainDialogModelInitialData()
+          );
+        }
+        if (!this._oDialog) {
+          this._oDialog = await this.loadFragment({
+            name: "project1.view.MainDialog",
+          });
+          this._oDialog.setModel(this._oTempModel, "temp");
+        }
+        this._oDialog.open();
+      },
+
+      onReleaseDateChange(oEvent) {
+        this._oTempModel.setProperty(
+          "/releaseDate/isValid",
+          oEvent.getParameter("valid")
+        );
+      },
+
+      onMainDialogAddRecordButtonPress() {
+        if (!this._validateForm()) return;
+        this.saveNewRecord();
+      },
+
+      _validateForm() {
+        const oData = this._oTempModel.getData();
+        let bIsValid = true;
+        for (const sField in oData) {
+          const oField = oData[sField];
+          let bFieldValid = true;
+
+          if (!oField.value) {
+            bFieldValid = false;
+          }
+
+          if (sField === "availableQuantity" && oField.value < 1) {
+            bFieldValid = false;
+          }
+
+          this._oTempModel.setProperty(
+            `/${sField}/valueState`,
+            bFieldValid ? "None" : "Error"
+          );
+
+          if (!bFieldValid) {
+            bIsValid = false;
+          }
+        }
+        if (!oData.releaseDate.isValid) {
+          this._oTempModel.setProperty("/releaseDate/valueState", "Error");
+          bIsValid = false;
+        }
+
+        return bIsValid;
+      },
+
+      saveNewRecord() {
         const oBookModel = this.getModel("booksModel");
         const aBooks = oBookModel.getProperty("/books");
-        const oNewBook = {
-          id: `book-${Date.now()}`,
-          isEditMode: false,
-        };
-        aBooks.push(oNewBook);
+        const oData = this._oTempModel.getData();
+        const oNewRecord = {};
+
+        for (const sField in oData) {
+          oNewRecord[sField] = oData[sField].value;
+        }
+        oNewRecord.id = `book-${Date.now()}`;
+        oNewRecord.isEditMode = false;
+
+        aBooks.push(oNewRecord);
         oBookModel.setProperty("/books", aBooks);
+        this._oDialog.close();
+      },
+
+      onMainDialogCancelButtonPress() {
+        this._oDialog.close();
       },
 
       onDeleteRecordButtonPress() {

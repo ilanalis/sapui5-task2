@@ -1,0 +1,66 @@
+<core:FragmentDefinition xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Dialog 
+        id="addMainDialog"
+        title="{i18n>addMainDialogTitle}">
+        <form:SimpleForm >
+            <Label 
+                text="{i18n>addMainDialogLabelName}" 
+                labelFor="nameInput">
+            </Label>
+            <Input 
+                id="nameInput"  
+                value="{temp>/name/value}" 
+				placeholder="{i18n>addMainDialogPlaceholderName}"
+                required="true" 
+                valueState="{temp>/name/valueState}"/>
+            <Label 
+                text="{i18n>addMainDialogLabelAuthor}" 
+                labelFor="authorInput"/>
+            <Input 
+                id="authorInput" 
+                value="{temp>/author/value}" 
+				placeholder="{i18n>addMainDialogPlaceholderAuthor}"
+                required="true" 
+                valueState="{temp>/author/valueState}"/>
+            <Label 
+                text="{i18n>addMainDialogLabelGenre}" 
+                labelFor="genreInput"/>
+            <Input 
+                id="genreInput" 
+                value="{temp>/genre/value}" 
+								placeholder="{i18n>addMainDialogPlaceholderGenre}"
+
+                required="true" 
+                valueState="{temp>/genre/valueState}"/>
+            <Label 
+                text="{i18n>addMainDialogLabelReleaseDate}" 
+                labelFor="releaseDate"/>
+            <DatePicker
+                id="releaseDate"
+                value="{temp>/releaseDate/value}" 
+                placeholder="{i18n>addMainDialogPlaceholderReleaseDate}"
+                required="true" 
+                valueState="{temp>/releaseDate/valueState}"
+                change=".onReleaseDateChange"
+                valueFormat="yyyy-MM-dd"/>
+            <Label 
+                text="{i18n>addMainDialogLabelQuantity}" 
+                labelFor="quantityInput"/>
+            <Input 
+                id="quantityInput" 
+                value="{temp>/availableQuantity/value}" 
+                type="Number"
+				placeholder="{i18n>addMainDialogPlaceholderQuantity}"
+                required="true" 
+                valueState="{temp>/availableQuantity/valueState}"/>
+        </form:SimpleForm>
+        <beginButton>
+            <Button text="{i18n>addMainDialogButtonText}" press=".onMainDialogAddRecordButtonPress"/>
+        </beginButton>
+        <endButton>
+            <Button text="{i18n>cancelMainDialogButtonText}" press=".onMainDialogCancelButtonPress"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
