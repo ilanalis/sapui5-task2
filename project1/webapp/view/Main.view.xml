@@ -60,7 +60,14 @@
             </HBox>
             <Text text="{booksModel>author}"/>
             <Text text="{booksModel>genre}"/>
-            <Text text="{booksModel>releaseDate}"/>
+            <Text
+              core:require="{
+								Formatter: 'project1/model/formatter'
+              }"
+              text="{
+                path: 'booksModel>releaseDate',
+                formatter: 'Formatter.getYearFromDate.bind($controller)'
+              }"/>
             <HBox >
               <Button text="{i18n>editTitleButtonText}" visible="{= !${booksModel>isEditMode}}"  press=".onEditTitleButtonPress"/>
               <Button text="{i18n>saveTitleButtonText}" visible="{booksModel>isEditMode}" press=".onSaveTitleButtonPress"/>
