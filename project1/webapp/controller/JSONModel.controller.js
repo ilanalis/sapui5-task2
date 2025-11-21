@@ -24,7 +24,7 @@ sap.ui.define(
           .getResourceBundle();
       },
 
-      _getJSONModelDialogModelInitialData() {
+      _getAddNewRecordDialogModelInitialData() {
         return {
           name: { value: "", valueState: "None" },
           author: { value: "", valueState: "None" },
@@ -34,19 +34,19 @@ sap.ui.define(
         };
       },
 
-      _setJSONModelDialogModelInitialData() {
-        this._oTempModel.setData(this._getJSONModelDialogModelInitialData());
+      _setAddNewRecordDialogModelInitialData() {
+        this._oTempModel.setData(this._getAddNewRecordDialogModelInitialData());
       },
 
       async onAddRecordButtonPress() {
         if (!this._oTempModel) {
           this._oTempModel = new JSONModel(
-            this._getJSONModelDialogModelInitialData()
+            this._getAddNewRecordDialogModelInitialData()
           );
         }
         if (!this._oDialog) {
           this._oDialog = await this.loadFragment({
-            name: "project1.view.JSONModelDialog",
+            name: "project1.view.fragment.AddNewRecordDialog",
           });
           this._oDialog.setModel(this._oTempModel, "temp");
         }
@@ -60,7 +60,7 @@ sap.ui.define(
         );
       },
 
-      onJSONModelDialogAddRecordButtonPress() {
+      onAddNewRecordDialogAddRecordButtonPress() {
         if (!this._validateForm()) return;
         this.saveNewRecord();
       },
@@ -114,7 +114,7 @@ sap.ui.define(
         this._oDialog.close();
       },
 
-      onJSONModelDialogCancelButtonPress() {
+      onAddNewRecordDialogCancelButtonPress() {
         this._oDialog.close();
       },
 

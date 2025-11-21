@@ -2,65 +2,65 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core">
     <Dialog 
-        id="addJSONModelDialog"
-        title="{i18n>addJSONModelDialogTitle}">
+        id="addNewRecordDialog"
+        title="{i18n>addNewRecordDialogTitle}">
         <form:SimpleForm >
             <Label 
-                text="{i18n>addJSONModelDialogLabelName}" 
+                text="{i18n>addNewRecordDialogLabelName}" 
                 labelFor="nameInput">
             </Label>
             <Input 
                 id="nameInput"  
                 value="{temp>/name/value}" 
-				placeholder="{i18n>addJSONModelDialogPlaceholderName}"
+				placeholder="{i18n>addNewRecordDialogPlaceholderName}"
                 required="true" 
                 valueState="{temp>/name/valueState}"/>
             <Label 
-                text="{i18n>addJSONModelDialogLabelAuthor}" 
+                text="{i18n>addNewRecordDialogLabelAuthor}" 
                 labelFor="authorInput"/>
             <Input 
                 id="authorInput" 
                 value="{temp>/author/value}" 
-				placeholder="{i18n>addJSONModelDialogPlaceholderAuthor}"
+				placeholder="{i18n>addNewRecordDialogPlaceholderAuthor}"
                 required="true" 
                 valueState="{temp>/author/valueState}"/>
             <Label 
-                text="{i18n>addJSONModelDialogLabelGenre}" 
+                text="{i18n>addNewRecordDialogLabelGenre}" 
                 labelFor="genreInput"/>
             <Input 
                 id="genreInput" 
                 value="{temp>/genre/value}" 
-								placeholder="{i18n>addJSONModelDialogPlaceholderGenre}"
+								placeholder="{i18n>addNewRecordDialogPlaceholderGenre}"
 
                 required="true" 
                 valueState="{temp>/genre/valueState}"/>
             <Label 
-                text="{i18n>addJSONModelDialogLabelReleaseDate}" 
+                text="{i18n>addNewRecordDialogLabelReleaseDate}" 
                 labelFor="releaseDate"/>
             <DatePicker
                 id="releaseDate"
                 value="{temp>/releaseDate/value}" 
-                placeholder="{i18n>addJSONModelDialogPlaceholderReleaseDate}"
+                placeholder="{i18n>addNewRecordDialogPlaceholderReleaseDate}"
                 required="true" 
                 valueState="{temp>/releaseDate/valueState}"
                 change=".onReleaseDateChange"
                 valueFormat="yyyy-MM-dd"/>
             <Label 
-                text="{i18n>addJSONModelDialogLabelQuantity}" 
+                text="{i18n>addNewRecordDialogLabelQuantity}" 
                 labelFor="quantityInput"/>
             <Input 
                 id="quantityInput" 
                 value="{temp>/availableQuantity/value}" 
                 type="Number"
-				placeholder="{i18n>addJSONModelDialogPlaceholderQuantity}"
+				placeholder="{i18n>addNewRecordDialogPlaceholderQuantity}"
                 required="true" 
                 valueState="{temp>/availableQuantity/valueState}"/>
         </form:SimpleForm>
         <beginButton>
-            <Button text="{i18n>addJSONModelDialogButtonText}" press=".onJSONModelDialogAddRecordButtonPress"/>
+            <Button text="{i18n>addNewRecordDialogButtonText}" press=".onAddNewRecordDialogAddRecordButtonPress"/>
         </beginButton>
         <endButton>
-            <Button text="{i18n>cancelJSONModelDialogButtonText}" press=".onJSONModelDialogCancelButtonPress"/>
+            <Button text="{i18n>cancelAddNewRecordDialogButtonText}" press=".onAddNewRecordDialogCancelButtonPress"/>
         </endButton>
     </Dialog>
 </core:FragmentDefinition>
