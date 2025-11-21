@@ -1,0 +1,70 @@
+<mvc:View 
+    xmlns:core="sap.ui.core" 
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Table 
+        id="ODataV2List" 
+        items="{
+            path: 'ODataV2>/Products',
+            parameters: {
+                expand: 'Category,Supplier'
+            }
+           }"
+        mode="MultiSelect"
+        selectionChange=".onBooksTableSelectionChange">
+        <headerToolbar>
+            <Toolbar >
+                <Title text="{i18n>tableProductsTitle}"/>
+            </Toolbar>
+        </headerToolbar>
+        <columns>
+            <Column >
+                <Text  text="{i18n>columnName}" />
+            </Column>
+            <Column >
+                <Text text="{i18n>columnDescription}"/>
+            </Column>
+            <Column >
+                <Text text="{i18n>columnReleaseDate}"/>
+            </Column>
+            <Column >
+                <Text text="{i18n>columnDiscontinuedDate}"/>
+            </Column>
+            <Column >
+                <Text text="{i18n>columnRating}"/>
+            </Column>
+            <Column >
+                <Text text="{i18n>columnPrice}"/>
+            </Column>
+            <Column >
+                <Text text="{i18n>columnCategory}"/>
+            </Column>
+            <Column >
+                <Text text="{i18n>columnSupplier}"/>
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem >
+                <cells>
+                    <ObjectIdentifier
+                        title="{ODataV2>Name}"/>
+                    <Text text="{ODataV2>Description}"/>
+                    <Text text="{
+                            path: 'ODataV2>ReleaseDate',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: {pattern: 'dd.MM.yyyy'}
+                        }"/>
+                    <Text text="{
+                            path: 'ODataV2>DiscontinuedDate',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: {pattern: 'dd.MM.yyyy'}
+                            }"/>
+                    <Text text="{ODataV2>Rating}"/>
+                    <Text text="{ODataV2>Price}"/>
+                    <Text text="{ODataV2>Category/Name}"/>
+                    <Text text="{ODataV2>Supplier/Name}"/>
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+</mvc:View>
