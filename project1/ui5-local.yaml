@@ -28,4 +28,19 @@ server:
     - name: fiori-tools-proxy
       afterMiddleware: compression
       configuration:
-        ignoreCertErrors: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+        ignoreCertErrors: false
+    # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+    - name: sap-fe-mockserver
+      beforeMiddleware: csp
+      configuration:
+        mountpath: /
+        services:
+          - urlPath: /bookshop/v2
+            metadataPath: ./webapp/localService/ODataV2/metadataV2.xml
+            mockdataPath: ./webapp/localService/ODataV2/data
+            generateMockData: true
+          - urlPath: /bookshop/v4
+            metadataPath: ./webapp/localService/ODataV4/metadataV4.xml
+            mockdataPath: ./webapp/localService/ODataV4/data
+            generateMockData: true
+        annotations: []

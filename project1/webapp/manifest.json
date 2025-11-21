@@ -14,6 +14,23 @@
       "id": "@sap/generator-fiori:basic",
       "version": "1.19.3",
       "toolsId": "5ba983e2-7d82-4b1f-ac66-02805afe8b96"
+    },
+    "dataSources": {
+      "ODataV2": {
+        "uri": "/bookshop/v2/",
+        "type": "OData",
+        "settings": {
+          "localUri": "localService/ODataV2/metadataV2.xml"
+        }
+      },
+      "ODataV4": {
+        "uri": "/bookshop/v4/",
+        "type": "OData",
+        "settings": {
+          "localUri": "localService/ODataV4/metadataV4.xml",
+          "odataVersion": "4.0"
+        }
+      }
     }
   },
   "sap.ui": {
@@ -51,6 +68,14 @@
         "settings": {
           "bundleName": "project1.i18n.i18n"
         }
+      },
+      "ODataV2": {
+        "dataSource": "ODataV2",
+        "type": "sap.ui.model.odata.v2.ODataModel"
+      },
+      "ODataV4": {
+        "dataSource": "ODataV4",
+        "type": "sap.ui.model.odata.v4.ODataModel"
       }
     },
     "resources": {
