@@ -2,65 +2,65 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core">
     <Dialog 
-        id="addMainDialog"
-        title="{i18n>addMainDialogTitle}">
+        id="addNewRecordDialog"
+        title="{i18n>addNewRecordDialogTitle}">
         <form:SimpleForm >
             <Label 
-                text="{i18n>addMainDialogLabelName}" 
+                text="{i18n>addNewRecordDialogLabelName}" 
                 labelFor="nameInput">
             </Label>
             <Input 
                 id="nameInput"  
                 value="{temp>/name/value}" 
-				placeholder="{i18n>addMainDialogPlaceholderName}"
+				placeholder="{i18n>addNewRecordDialogPlaceholderName}"
                 required="true" 
                 valueState="{temp>/name/valueState}"/>
             <Label 
-                text="{i18n>addMainDialogLabelAuthor}" 
+                text="{i18n>addNewRecordDialogLabelAuthor}" 
                 labelFor="authorInput"/>
             <Input 
                 id="authorInput" 
                 value="{temp>/author/value}" 
-				placeholder="{i18n>addMainDialogPlaceholderAuthor}"
+				placeholder="{i18n>addNewRecordDialogPlaceholderAuthor}"
                 required="true" 
                 valueState="{temp>/author/valueState}"/>
             <Label 
-                text="{i18n>addMainDialogLabelGenre}" 
+                text="{i18n>addNewRecordDialogLabelGenre}" 
                 labelFor="genreInput"/>
             <Input 
                 id="genreInput" 
                 value="{temp>/genre/value}" 
-								placeholder="{i18n>addMainDialogPlaceholderGenre}"
+								placeholder="{i18n>addNewRecordDialogPlaceholderGenre}"
 
                 required="true" 
                 valueState="{temp>/genre/valueState}"/>
             <Label 
-                text="{i18n>addMainDialogLabelReleaseDate}" 
+                text="{i18n>addNewRecordDialogLabelReleaseDate}" 
                 labelFor="releaseDate"/>
             <DatePicker
                 id="releaseDate"
                 value="{temp>/releaseDate/value}" 
-                placeholder="{i18n>addMainDialogPlaceholderReleaseDate}"
+                placeholder="{i18n>addNewRecordDialogPlaceholderReleaseDate}"
                 required="true" 
                 valueState="{temp>/releaseDate/valueState}"
                 change=".onReleaseDateChange"
                 valueFormat="yyyy-MM-dd"/>
             <Label 
-                text="{i18n>addMainDialogLabelQuantity}" 
+                text="{i18n>addNewRecordDialogLabelQuantity}" 
                 labelFor="quantityInput"/>
             <Input 
                 id="quantityInput" 
                 value="{temp>/availableQuantity/value}" 
                 type="Number"
-				placeholder="{i18n>addMainDialogPlaceholderQuantity}"
+				placeholder="{i18n>addNewRecordDialogPlaceholderQuantity}"
                 required="true" 
                 valueState="{temp>/availableQuantity/valueState}"/>
         </form:SimpleForm>
         <beginButton>
-            <Button text="{i18n>addMainDialogButtonText}" press=".onMainDialogAddRecordButtonPress"/>
+            <Button text="{i18n>addNewRecordDialogButtonText}" press=".onAddNewRecordDialogAddRecordButtonPress"/>
         </beginButton>
         <endButton>
-            <Button text="{i18n>cancelMainDialogButtonText}" press=".onMainDialogCancelButtonPress"/>
+            <Button text="{i18n>cancelAddNewRecordDialogButtonText}" press=".onAddNewRecordDialogCancelButtonPress"/>
         </endButton>
     </Dialog>
 </core:FragmentDefinition>
