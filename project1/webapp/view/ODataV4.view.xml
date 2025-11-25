@@ -2,77 +2,65 @@
     xmlns:core="sap.ui.core" 
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
-    <Table 
+  <Table 
         id="ODataV4List" 
         items="{
             path: 'ODataV4>/Products',
-            parameters: {
-                expand: 'Categories,Supplier,ProductDetail'
-                
-            },
             templateShareable: false
            }"
         mode="MultiSelect"
         selectionChange=".onBooksTableSelectionChange"
         >
-        <headerToolbar>
-            <Toolbar >
-                <Title text="{i18n>tableProductsTitle}"/>
-            </Toolbar>
-        </headerToolbar>
-        <columns>
-            <Column >
-                <Text  text="{i18n>columnName}" />
-            </Column>
-            <Column >
-                <Text text="{i18n>columnDescription}"/>
-            </Column>
-            <Column >
-                <Text text="{i18n>columnReleaseDate}"/>
-            </Column>
-            <Column >
-                <Text text="{i18n>columnDiscontinuedDate}"/>
-            </Column>
-            <Column >
-                <Text text="{i18n>columnRating}"/>
-            </Column>
-            <Column >
-                <Text text="{i18n>columnPrice}"/>
-            </Column>
-            <Column >
-                <Text text="{i18n>columnCategory}"/>
-            </Column>
-            <Column >
-                <Text text="{i18n>columnSupplier}"/>
-            </Column>
-            <Column >
-                <Text text="{i18n>columnProductDetail}" />
-            </Column>
-        </columns>
-        <items>
-            <ColumnListItem >
-                <cells>
-                    <ObjectIdentifier
-                        title="{ODataV4>Name}"/>
-                    <Text text="{ODataV4>Description}"/>
-                    <Text  
-                        core:require="{Formatter: 'project1/model/formatter'}"
+    <headerToolbar>
+      <Toolbar >
+        <Title text="{i18n>tableProductsTitle}"/>
+      </Toolbar>
+    </headerToolbar>
+    <columns>
+      <Column>
+        <Text  text="{i18n>columnName}" />
+      </Column>
+      <Column>
+        <Text text="{i18n>columnDescription}"/>
+      </Column>
+      <Column>
+        <Text text="{i18n>columnReleaseDate}"/>
+      </Column>
+      <Column>
+        <Text text="{i18n>columnRating}"/>
+      </Column>
+      <Column>
+        <Text text="{i18n>columnPrice}"/>
+      </Column>
+    </columns>
+    <items>
+      <ColumnListItem >
+        <cells>
+          <ObjectIdentifier title="{ODataV4>Name}"/>
+          <Text text="{ODataV4>Description}"/>
+          <Text text="{
+                        path: 'ODataV4>ReleaseDate',
+                        type: 'sap.ui.model.odata.type.DateTimeOffset',
+                        formatOptions: { pattern: 'yyyy' }
+                    }"/>
+          <RatingIndicator 
+                        maxValue="5"  
+                        value="{ODataV4>Rating}"
+                        enabled="false"
+                        iconSize="1rem"
+                    />
+          <Text 
                         text="{
-                            path: 'ODataV4>ReleaseDate',
-                            formatter: 'Formatter.formatDate',
-                            targetType: 'any'
+                            path: 'ODataV4>Price',
+                            type: 'sap.ui.model.type.Float',
+                            formatOptions: {
+                                maxFractionDigits: 2,
+                                minFractionDigits: 2,
+                                groupingEnabled: true
+                            }
                         }"/>
-                    <Text  
-                        core:require="{Formatter: 'project1/model/formatter'}"
-                        text="{
-                            path: 'ODataV4>DiscontinuedDate',
-                            formatter: 'Formatter.formatDate',
-                            targetType: 'any'
-                        }"/>
-                    <Text text="{ODataV4>Rating}"/>
-                    <Text text="{ODataV4>Price}"/>
-                </cells>
-            </ColumnListItem>
-        </items>
-    </Table>
+        </cells>
+      </ColumnListItem>
+    </items>
+  </Table>
 </mvc:View>
