@@ -1,5 +1,6 @@
 <mvc:View 
     xmlns:core="sap.ui.core" 
+    controllerName="project1.controller.ODataV2"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
   <Table 
@@ -8,10 +9,12 @@
             path: 'ODataV2>/Products'
            }"
         mode="MultiSelect"
-        selectionChange=".onBooksTableSelectionChange">
+        selectionChange=".onProductsTableSelectionChange">
     <headerToolbar>
       <Toolbar >
         <Title text="{i18n>tableProductsTitle}"/>
+        <ToolbarSpacer/>
+        <Button text="{i18n>deleteRecordButtonText}" press=".onDeleteRecordButtonPress" enabled="{= !!${configModel>/isDeleteButtonEnabled}}"/>
       </Toolbar>
     </headerToolbar>
     <columns>
