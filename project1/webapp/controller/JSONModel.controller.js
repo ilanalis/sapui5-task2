@@ -189,10 +189,7 @@ sap.ui.define(
       },
 
       onBooksTableSelectionChange(oEvent) {
-        this.getModel("booksModel").setProperty(
-          "/isDeleteButtonEnabled",
-          !!oEvent.getSource().getSelectedItems().length
-        );
+        this.handleTableSelectionChange(oEvent, "booksModel");
       },
     });
   }

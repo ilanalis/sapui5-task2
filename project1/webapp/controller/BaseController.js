@@ -4,5 +4,12 @@ sap.ui.define(["sap/ui/core/mvc/Controller"], (Controller) => {
     getModel(sName) {
       return this.getView().getModel(sName);
     },
+
+    handleTableSelectionChange(oEvent, sModelName) {
+      this.getModel(sModelName).setProperty(
+        "/isDeleteButtonEnabled",
+        !!oEvent.getSource().getSelectedItems().length
+      );
+    },
   });
 });
