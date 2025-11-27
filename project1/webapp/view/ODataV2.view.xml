@@ -14,7 +14,8 @@
       <Toolbar >
         <Title text="{i18n>tableProductsTitle}"/>
         <ToolbarSpacer/>
-        <Button text="{i18n>deleteRecordButtonText}" press=".onDeleteRecordButtonPress" enabled="{= !!${configModel>/isDeleteButtonEnabled}}"/>
+        <Button text="{i18n>addProductButtonText}" press=".onAddProductButtonPress"/>
+        <Button text="{i18n>deleteProductButtonText}" press=".onDeleteProductButtonPress" enabled="{= !!${configModel>/isDeleteButtonEnabled}}"/>
       </Toolbar>
     </headerToolbar>
     <columns>
@@ -47,20 +48,20 @@
                             UTC: true}
                         }"/>
           <RatingIndicator 
-                maxValue="5"  
-                value="{ODataV2>Rating}"
-                enabled="false"
-                iconSize="1rem"
-            />
+                        maxValue="5"  
+                        value="{ODataV2>Rating}"
+                        enabled="false"
+                        iconSize="1rem"
+                    />
           <Text 
-            text="{
-                path: 'ODataV2>Price',
-                type: 'sap.ui.model.type.Float',
-                formatOptions: {
-                    maxFractionDigits: 2,
-                    minFractionDigits: 2
-                }
-            }"/>
+                        text="{
+                            path: 'ODataV2>Price',
+                            type: 'sap.ui.model.type.Float',
+                            formatOptions: {
+                                maxFractionDigits: 2,
+                                minFractionDigits: 2
+                            }
+                        }"/>
         </cells>
       </ColumnListItem>
     </items>
