@@ -2,9 +2,10 @@ sap.ui.define(
   [
     "project1/controller/BaseController",
     "sap/m/MessageToast",
+    "sap/m/MessageBox",
     "sap/ui/model/json/JSONModel",
   ],
-  (BaseController, MessageToast, JSONModel) => {
+  (BaseController, MessageToast, MessageBox, JSONModel) => {
     "use strict";
 
     return BaseController.extend("project1.controller.ODataV2", {
@@ -15,18 +16,17 @@ sap.ui.define(
 
         this._oConfigModel = new JSONModel({
           isDeleteButtonEnabled: false,
-          isFormValid: false,
         });
         this.getView().setModel(this._oConfigModel, "configModel");
       },
 
       _getAddNewProductDialogInitialData() {
         return {
-          name: { value: "", valueState: "None" },
-          description: { value: "", valueState: "None" },
+          name: { value: "", valueState: "None", isValid: false },
+          description: { value: "", valueState: "None", isValid: false },
           releaseDate: { value: "", valueState: "None", isValid: false },
-          rating: { value: null, valueState: "None" },
-          price: { value: null, valueState: "None" },
+          rating: { value: null, valueState: "None", isValid: false },
+          price: { value: null, valueState: "None", isValid: false },
         };
       },
 
@@ -36,73 +36,82 @@ sap.ui.define(
             name: "project1.view.fragment.AddNewProductDialog",
           });
 
-          this._oDialog.setModel(this._oConfigModel, "configModel");
+          this._oDialog.bindObject({
+            path: "/newProduct",
+            model: "configModel",
+          });
         }
         this._oConfigModel.setProperty(
           "/newProduct",
           this._getAddNewProductDialogInitialData()
         );
-        this._oConfigModel.setProperty("/isFormValid", false);
         this._oDialog.open();
       },
 
-      onInputLiveChange(oEvent) {
+      onTextInputLiveChange(oEvent) {
         const oControl = oEvent.getSource();
-        const sPath = oControl.getBindingPath("value");
-        let vValue = oControl.getValue();
-        if (oControl.getType() === "Number") {
-          vValue = vValue === "" ? 0 : parseFloat(vValue);
-        }
-
-        this._validateField(vValue, sPath);
-        this._validateForm();
-      },
-
-      _validateField(vValue, sPath) {
-        let isInputValid = true;
-
-        if (typeof vValue === "number") {
-          vValue = parseFloat(vValue);
-          if (sPath.includes("rating")) {
-            isInputValid = vValue >= 1 && vValue <= 5;
-          } else if (sPath.includes("price")) {
-            isInputValid = vValue > 0;
-          }
-        } else if (typeof vValue === "string") {
-          isInputValid = !!vValue.trim();
-        }
-
-        this._oConfigModel.setProperty(sPath, vValue);
+        const sPath = oControl.getBindingPath("value").split("/")[0];
+        let sValue = oControl.getValue()?.trim();
 
         this._oConfigModel.setProperty(
-          sPath.replace("/value", "/valueState"),
-          isInputValid ? "None" : "Error"
+          `/newProduct/${sPath}/valueState`,
+          sValue ? "None" : "Error"
         );
 
         this._oConfigModel.setProperty(
-          sPath.replace("/value", "/valueStateText"),
-          !isInputValid && sPath.includes("rating")
-            ? this._oResourceBundle.getText(
-                "addNewProductDialogRatingOutOfRangeError"
-              )
-            : ""
+          `/newProduct/${sPath}/isValid`,
+          !!sValue
+        );
+      },
+
+      onPriceInputLiveChange(oEvent) {
+        const oControl = oEvent.getSource();
+        const sPath = oControl.getBindingPath("value").split("/")[0];
+        let iValue = parseFloat(oControl.getValue());
+        const bIsInputValid = iValue > 0;
+
+        this._oConfigModel.setProperty(
+          `/newProduct/${sPath}/valueState`,
+          bIsInputValid ? "None" : "Error"
+        );
+
+        this._oConfigModel.setProperty(
+          `/newProduct/${sPath}/isValid`,
+          bIsInputValid
+        );
+      },
+
+      onRatingInputLiveChange(oEvent) {
+        const oControl = oEvent.getSource();
+        const sPath = oControl.getBindingPath("value").split("/")[0];
+        let iValue = parseFloat(oControl.getValue());
+        const bIsInputValid = iValue >= 1 && iValue <= 5;
+
+        this._oConfigModel.setProperty(
+          `/newProduct/${sPath}/valueState`,
+          bIsInputValid ? "None" : "Error"
+        );
+
+        this._oConfigModel.setProperty(
+          `/newProduct/${sPath}/isValid`,
+          bIsInputValid
         );
       },
 
       _validateForm() {
-        const oData = this._oConfigModel.getData();
+        const oNewProductData = this._oConfigModel.getProperty("/newProduct");
         let bIsValid = true;
-        for (const sField in oData.newProduct) {
-          const oFieldData = oData.newProduct[sField];
-          if (oFieldData.valueState !== "None") {
-            bIsValid = false;
-          }
-        }
-        if (!oData.newProduct.releaseDate.isValid) {
-          bIsValid = false;
+        for (const sField in oNewProductData) {
+          const oFieldData = oNewProductData[sField];
+
+          bIsValid = oFieldData.isValid;
+          this._oConfigModel.setProperty(
+            `/newProduct/${sField}/valueState`,
+            oFieldData.isValid ? "None" : "Error"
+          );
         }
 
-        this._oConfigModel.setProperty("/isFormValid", bIsValid);
+        return bIsValid;
       },
 
       onReleaseDateChange(oEvent) {
@@ -111,23 +120,22 @@ sap.ui.define(
           "/newProduct/releaseDate/isValid",
           bIsValid
         );
-        if (bIsValid) {
-          this._oConfigModel.setProperty(
-            "/newProduct/releaseDate/valueState",
-            "None"
-          );
-        } else {
-          this._oConfigModel.setProperty(
-            "/newProduct/releaseDate/valueState",
-            "Error"
-          );
-        }
-        this._validateForm();
+
+        this._oConfigModel.setProperty(
+          "/newProduct/releaseDate/valueState",
+          bIsValid ? "None" : "Error"
+        );
       },
 
-      onAddnewProductDialogAddButtonPress() {
+      onAddNewProductDialogAddButtonPress() {
+        if (this._validateForm()) {
+          this._onCreateNewProduct();
+        }
+      },
+
+      _onCreateNewProduct() {
         const oModel = this.getModel("ODataV2");
-        const oNewProduct = this._oConfigModel.getData().newProduct;
+        const oNewProduct = this._oConfigModel.getProperty("/newProduct");
         const oPayload = {
           Name: oNewProduct.name.value,
           Description: oNewProduct.description.value,
@@ -137,10 +145,11 @@ sap.ui.define(
         };
 
         oModel.create("/Products", oPayload, {
-          success: () =>
-            this._showMessageToast("addNewProductDialogProductCreatedSuccess"),
-          error: () =>
-            this._showMessageToast("addNewProductDialogProductCreatedError"),
+          success: () => {
+            this._showMessageToast("addNewProductDialogProductCreatedSuccess");
+            this._oDialog.close();
+          },
+          error: (oError) => MessageBox.error(oError.message),
         });
       },
 
