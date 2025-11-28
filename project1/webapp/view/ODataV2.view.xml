@@ -15,6 +15,7 @@
         <Title text="{i18n>tableProductsTitle}"/>
         <ToolbarSpacer/>
         <SearchField 
+            placeholder="{i18n>searchFieldPlaceholderText}"
             width="50%"
             liveChange=".onFilterProductsByProductName"/>
         <Button text="{i18n>addProductButtonText}" press=".onAddNewProductButtonPress"/>
