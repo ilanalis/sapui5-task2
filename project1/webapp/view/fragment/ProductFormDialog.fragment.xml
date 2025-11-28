@@ -8,8 +8,7 @@
             <form:SimpleForm >
                   <Label 
                         text="{i18n>productFormDialogLabelName}" 
-                        labelFor="productNameInput">
-                  </Label>
+                        labelFor="productNameInput"/>
                   <Input 
                         id="productNameInput"
                         value="{configModel>name/value}" 
@@ -19,78 +18,76 @@
                         valueStateText="{i18n>textInputValueStateErrorText}"
                         liveChange=".onTextInputLiveChange"/>
                   <Label 
-            text="{i18n>productFormDialogLabelDescription}" 
-            labelFor="productDescriptionInput"
-            />
+                        text="{i18n>productFormDialogLabelDescription}" 
+                        labelFor="productDescriptionInput" />
                   <Input 
-            id="productDescriptionInput"
-            value="{configModel>description/value}" 
-            placeholder="{i18n>productFormDialogPlaceholderDescription}"
-            required="true" 
-            valueState="{configModel>description/valueState}"
-            valueStateText="{i18n>textInputValueStateErrorText}"
-            liveChange=".onTextInputLiveChange"/>
+                        id="productDescriptionInput"
+                        value="{configModel>description/value}" 
+                        placeholder="{i18n>productFormDialogPlaceholderDescription}"
+                        required="true" 
+                        valueState="{configModel>description/valueState}"
+                        valueStateText="{i18n>textInputValueStateErrorText}"
+                        liveChange=".onTextInputLiveChange"/>
                   <Label 
-            text="{i18n>productFormDialogLabelReleaseDate}" 
-            labelFor="productReleaseDateInput"/>
+                        text="{i18n>productFormDialogLabelReleaseDate}" 
+                        labelFor="productReleaseDateInput"/>
                   <DatePicker
-            id="productReleaseDateInput"
-            placeholder="{i18n>productFormDialogPlaceholderReleaseDate}"
-            required="true" 
-            valueState="{configModel>releaseDate/valueState}"
-            valueStateText="{i18n>datePickerInputValueStateErrorText}"
-            change=".onReleaseDateChange"
-            value="{
-                  path: 'configModel>releaseDate/value',
-                  type: 'sap.ui.model.type.Date',  
-                  formatOptions: {
-                        pattern: 'yyyy-MM-dd'        
-                  }
-            }"/>
+                        id="productReleaseDateInput"
+                        placeholder="{i18n>productFormDialogPlaceholderReleaseDate}"
+                        required="true" 
+                        valueState="{configModel>releaseDate/valueState}"
+                        valueStateText="{i18n>datePickerInputValueStateErrorText}"
+                        change=".onReleaseDateChange"
+                        value="{
+                              path: 'configModel>releaseDate/value',
+                              type: 'sap.ui.model.type.Date',  
+                              formatOptions: {
+                                    pattern: 'yyyy-MM-dd'        
+                              }
+                        }"/>
                   <Label 
-            text="{i18n>productFormDialogLabelRating}" 
-            labelFor="productRatingInput"/>
+                        text="{i18n>productFormDialogLabelRating}" 
+                        labelFor="productRatingInput"/>
                   <Input
-            id="productRatingInput"
-            type="Number"
-            value="{configModel>rating/value}"
-            placeholder="{i18n>productFormDialogPlaceholderRating}"
-            required="true" 
-            valueState="{configModel>rating/valueState}"
-            valueStateText="{i18n>productFormDialogRatingOutOfRangeError}"
-            liveChange=".onRatingInputLiveChange"
-            />
+                        id="productRatingInput"
+                        type="Number"
+                        value="{configModel>rating/value}"
+                        placeholder="{i18n>productFormDialogPlaceholderRating}"
+                        required="true" 
+                        valueState="{configModel>rating/valueState}"
+                        valueStateText="{i18n>productFormDialogRatingOutOfRangeError}"
+                        liveChange=".onRatingInputLiveChange"
+                        />
                   <Label 
-            text="{i18n>productFormDialogLabelPrice}" 
-            labelFor="productPriceInput"/>
+                        text="{i18n>productFormDialogLabelPrice}" 
+                        labelFor="productPriceInput"/>
                   <Input 
-            id="productPriceInput"
-            value="{configModel>price/value}" 
-            type="Number"
-            placeholder="{i18n>productFormDialogPlaceholderPrice}"
-            required="true" 
-            valueState="{configModel>price/valueState}"
-            valueStateText="{i18n>priceInputValueStateErrorText}"
-            liveChange=".onPriceInputLiveChange"
-            />
+                        id="productPriceInput"
+                        value="{configModel>price/value}" 
+                        type="Number"
+                        placeholder="{i18n>productFormDialogPlaceholderPrice}"
+                        required="true" 
+                        valueState="{configModel>price/valueState}"
+                        valueStateText="{i18n>priceInputValueStateErrorText}"
+                        liveChange=".onPriceInputLiveChange"
+                        />
             </form:SimpleForm>
             <footer >
                   <Toolbar>
                         <ToolbarSpacer/>
                         <Button 
-            text="{i18n>productFormDialogSaveButtonText}" 
-            press=".onProductFormDialogSaveButtonPress"  
-            visible="{configModel>/isDialogInEditMode}" 
-            type="Emphasized"/>
+                              text="{i18n>productFormDialogSaveButtonText}" 
+                              press=".onProductFormDialogSaveButtonPress"  
+                              visible="{configModel>/isDialogInEditMode}" 
+                              type="Emphasized"/>
                         <Button 
-            text="{i18n>productFormDialogAddButtonText}" 
-            press=".onProductFormDialogAddButtonPress"  
-            visible="{= !${configModel>/isDialogInEditMode}}" 
-            type="Emphasized"/>
+                              text="{i18n>productFormDialogAddButtonText}" 
+                              press=".onProductFormDialogAddButtonPress"  
+                              visible="{= !${configModel>/isDialogInEditMode}}" 
+                              type="Emphasized"/>
                         <Button 
-            text="{i18n>productFormDialogCancelButtonText}" 
-            press=".onDialogCancelButtonPress"
-            />
+                              text="{i18n>productFormDialogCancelButtonText}" 
+                              press=".onDialogCancelButtonPress"/>
                   </Toolbar>
             </footer>
       </Dialog>

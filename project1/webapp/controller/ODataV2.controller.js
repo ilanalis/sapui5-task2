@@ -23,7 +23,7 @@ sap.ui.define(
       },
 
       _getDialogFormData(oContext) {
-        const formData = {
+        const oFormData = {
           name: { value: "", valueState: "None", isValid: false },
           description: { value: "", valueState: "None", isValid: false },
           releaseDate: { value: null, valueState: "None", isValid: false },
@@ -33,15 +33,15 @@ sap.ui.define(
         if (oContext) {
           const oModel = this.getModel("ODataV2");
           const sPath = oContext.getPath();
-          for (const field in formData) {
+          for (const field in oFormData) {
             const formattedField = `${sPath}/${
               field[0].toUpperCase() + field.slice(1)
             }`;
-            formData[field].value = oModel.getProperty(formattedField);
-            formData[field].isValid = true;
+            oFormData[field].value = oModel.getProperty(formattedField);
+            oFormData[field].isValid = true;
           }
         }
-        return formData;
+        return oFormData;
       },
 
       onAddNewProductButtonPress() {
@@ -61,16 +61,15 @@ sap.ui.define(
           });
         }
         this._oDialog.bindObject({
-          path: "/newProduct",
+          path: "/productData",
           model: "configModel",
         });
 
-        const isEditing = !!oContext;
-
-        this._oConfigModel.setProperty("/isDialogInEditMode", isEditing);
+        const bIsEditing = !!oContext;
+        this._oConfigModel.setProperty("/isDialogInEditMode", bIsEditing);
 
         let dialogData;
-        if (isEditing) {
+        if (bIsEditing) {
           dialogData = this._getDialogFormData(oContext);
           this._oConfigModel.setProperty(
             "/editProductPath",
@@ -81,7 +80,7 @@ sap.ui.define(
           this._oConfigModel.setProperty("/editProductPath", "");
         }
 
-        this._oConfigModel.setProperty("/newProduct", dialogData);
+        this._oConfigModel.setProperty("/productData", dialogData);
         this._oDialog.open();
       },
 
@@ -91,12 +90,12 @@ sap.ui.define(
         let sValue = oControl.getValue()?.trim();
 
         this._oConfigModel.setProperty(
-          `/newProduct/${sPath}/valueState`,
+          `/productData/${sPath}/valueState`,
           sValue ? "None" : "Error"
         );
 
         this._oConfigModel.setProperty(
-          `/newProduct/${sPath}/isValid`,
+          `/productData/${sPath}/isValid`,
           !!sValue
         );
       },
@@ -108,12 +107,12 @@ sap.ui.define(
         const bIsInputValid = iValue > 0;
 
         this._oConfigModel.setProperty(
-          `/newProduct/${sPath}/valueState`,
+          `/productData/${sPath}/valueState`,
           bIsInputValid ? "None" : "Error"
         );
 
         this._oConfigModel.setProperty(
-          `/newProduct/${sPath}/isValid`,
+          `/productData/${sPath}/isValid`,
           bIsInputValid
         );
       },
@@ -125,25 +124,25 @@ sap.ui.define(
         const bIsInputValid = iValue >= 1 && iValue <= 5;
 
         this._oConfigModel.setProperty(
-          `/newProduct/${sPath}/valueState`,
+          `/productData/${sPath}/valueState`,
           bIsInputValid ? "None" : "Error"
         );
 
         this._oConfigModel.setProperty(
-          `/newProduct/${sPath}/isValid`,
+          `/productData/${sPath}/isValid`,
           bIsInputValid
         );
       },
 
       _validateForm() {
-        const oNewProductData = this._oConfigModel.getProperty("/newProduct");
+        const oProductDataData = this._oConfigModel.getProperty("/productData");
         let bIsValid = true;
-        for (const sField in oNewProductData) {
-          const oFieldData = oNewProductData[sField];
+        for (const sField in oProductDataData) {
+          const oFieldData = oProductDataData[sField];
 
           bIsValid = oFieldData.isValid;
           this._oConfigModel.setProperty(
-            `/newProduct/${sField}/valueState`,
+            `/productData/${sField}/valueState`,
             oFieldData.isValid ? "None" : "Error"
           );
         }
@@ -154,19 +153,19 @@ sap.ui.define(
       onReleaseDateChange(oEvent) {
         const bIsValid = oEvent.getParameter("valid");
         this._oConfigModel.setProperty(
-          "/newProduct/releaseDate/isValid",
+          "/productData/releaseDate/isValid",
           bIsValid
         );
 
         this._oConfigModel.setProperty(
-          "/newProduct/releaseDate/valueState",
+          "/productData/releaseDate/valueState",
           bIsValid ? "None" : "Error"
         );
       },
 
       onProductFormDialogAddButtonPress() {
         if (this._validateForm()) {
-          this._onCreateNewProduct();
+          this._onCreateproductData();
         }
       },
 
@@ -179,9 +178,8 @@ sap.ui.define(
       _onUpdateProduct() {
         const oModel = this.getModel("ODataV2");
         const sEditPath = this._oConfigModel.getProperty("/editProductPath");
-        const oNewProduct = this._oConfigModel.getProperty("/newProduct");
-        const oPayload = this._getPayload(oNewProduct);
-        oModel.update(sEditPath, oPayload, {
+
+        oModel.update(sEditPath, this._getPayload(), {
           success: () => {
             this._showMessageToast("productFormDialogProductUpdatedSuccess");
             this._oDialog.close();
@@ -190,12 +188,10 @@ sap.ui.define(
         });
       },
 
-      _onCreateNewProduct() {
+      _onCreateproductData() {
         const oModel = this.getModel("ODataV2");
-        const oNewProduct = this._oConfigModel.getProperty("/newProduct");
-        const oPayload = this._getPayload(oNewProduct);
 
-        oModel.create("/Products", oPayload, {
+        oModel.create("/Products", this._getPayload(), {
           success: () => {
             this._showMessageToast("productFormDialogProductCreatedSuccess");
             this._oDialog.close();
@@ -204,13 +200,15 @@ sap.ui.define(
         });
       },
 
-      _getPayload(oNewProduct) {
+      _getPayload() {
+        const oProductData = this._oConfigModel.getProperty("/productData");
+
         return {
-          Name: oNewProduct.name.value,
-          Description: oNewProduct.description.value,
-          ReleaseDate: new Date(oNewProduct.releaseDate.value),
-          Rating: parseInt(oNewProduct.rating.value, 10),
-          Price: parseFloat(oNewProduct.price.value),
+          Name: oProductData.name.value,
+          Description: oProductData.description.value,
+          ReleaseDate: new Date(oProductData.releaseDate.value),
+          Rating: parseInt(oProductData.rating.value, 10),
+          Price: parseFloat(oProductData.price.value),
         };
       },
 
