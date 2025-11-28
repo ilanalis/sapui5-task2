@@ -14,6 +14,9 @@
       <Toolbar >
         <Title text="{i18n>tableProductsTitle}"/>
         <ToolbarSpacer/>
+        <SearchField 
+            width="50%"
+            liveChange=".onFilterProductsByProductName"/>
         <Button text="{i18n>addProductButtonText}" press=".onAddNewProductButtonPress"/>
         <Button text="{i18n>deleteProductButtonText}" press=".onDeleteProductButtonPress" enabled="{= !!${configModel>/isDeleteButtonEnabled}}"/>
       </Toolbar>
@@ -41,30 +44,30 @@
     <items>
       <ColumnListItem >
         <cells>
-          <ObjectIdentifier
-                        title="{ODataV2>Name}"/>
+          <ObjectIdentifier title="{ODataV2>Name}"/>
           <Text text="{ODataV2>Description}"/>
-          <Text text="{
-                            path: 'ODataV2>ReleaseDate',
-                            type: 'sap.ui.model.type.Date',
-                            formatOptions: {pattern: 'yyyy',
-                            UTC: true}
-                        }"/>
-          <RatingIndicator 
-                        maxValue="5"  
-                        value="{ODataV2>Rating}"
-                        enabled="false"
-                        iconSize="1rem"
-                    />
           <Text 
-                        text="{
-                            path: 'ODataV2>Price',
-                            type: 'sap.ui.model.type.Float',
-                            formatOptions: {
-                                maxFractionDigits: 2,
-                                minFractionDigits: 2
-                            }
-                        }"/>
+            text="{
+              path: 'ODataV2>ReleaseDate',
+              type: 'sap.ui.model.type.Date',
+              formatOptions: {pattern: 'yyyy',
+              UTC: true}
+            }"/>
+          <RatingIndicator 
+              maxValue="5"  
+              value="{ODataV2>Rating}"
+              enabled="false"
+              iconSize="1rem"
+          />
+          <Text 
+              text="{
+                  path: 'ODataV2>Price',
+                  type: 'sap.ui.model.type.Float',
+                  formatOptions: {
+                      maxFractionDigits: 2,
+                      minFractionDigits: 2
+                  }
+              }"/>
           <Button text="{i18n>editProductButtonText}"  press=".onEditProductButtonPress"/>
         </cells>
       </ColumnListItem>
