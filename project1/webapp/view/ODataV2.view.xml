@@ -14,7 +14,7 @@
       <Toolbar >
         <Title text="{i18n>tableProductsTitle}"/>
         <ToolbarSpacer/>
-        <Button text="{i18n>addProductButtonText}" press=".onAddProductButtonPress"/>
+        <Button text="{i18n>addProductButtonText}" press=".onAddNewProductButtonPress"/>
         <Button text="{i18n>deleteProductButtonText}" press=".onDeleteProductButtonPress" enabled="{= !!${configModel>/isDeleteButtonEnabled}}"/>
       </Toolbar>
     </headerToolbar>
@@ -33,6 +33,9 @@
       </Column>
       <Column >
         <Text text="{i18n>columnPrice}"/>
+      </Column>
+      <Column width="10em">
+        <Text text="{i18n>columnActions}" />
       </Column>
     </columns>
     <items>
@@ -62,6 +65,7 @@
                                 minFractionDigits: 2
                             }
                         }"/>
+          <Button text="{i18n>editProductButtonText}"  press=".onEditProductButtonPress"/>
         </cells>
       </ColumnListItem>
     </items>

@@ -16,35 +16,72 @@ sap.ui.define(
 
         this._oConfigModel = new JSONModel({
           isDeleteButtonEnabled: false,
+          isDialogInEditMode: false,
+          editProductPath: "",
         });
         this.getView().setModel(this._oConfigModel, "configModel");
       },
 
-      _getAddNewProductDialogInitialData() {
-        return {
+      _getDialogFormData(oContext) {
+        const formData = {
           name: { value: "", valueState: "None", isValid: false },
           description: { value: "", valueState: "None", isValid: false },
-          releaseDate: { value: "", valueState: "None", isValid: false },
+          releaseDate: { value: null, valueState: "None", isValid: false },
           rating: { value: null, valueState: "None", isValid: false },
           price: { value: null, valueState: "None", isValid: false },
         };
+        if (oContext) {
+          const oModel = this.getModel("ODataV2");
+          const sPath = oContext.getPath();
+          for (const field in formData) {
+            const formattedField = `${sPath}/${
+              field[0].toUpperCase() + field.slice(1)
+            }`;
+            formData[field].value = oModel.getProperty(formattedField);
+            formData[field].isValid = true;
+          }
+        }
+        return formData;
       },
 
-      async onAddProductButtonPress() {
+      onAddNewProductButtonPress() {
+        this._onOpenProductDialog();
+      },
+
+      onEditProductButtonPress(oEvent) {
+        this._onOpenProductDialog(
+          oEvent.getSource().getBindingContext("ODataV2")
+        );
+      },
+
+      async _onOpenProductDialog(oContext) {
         if (!this._oDialog) {
           this._oDialog = await this.loadFragment({
-            name: "project1.view.fragment.AddNewProductDialog",
-          });
-
-          this._oDialog.bindObject({
-            path: "/newProduct",
-            model: "configModel",
+            name: "project1.view.fragment.ProductFormDialog",
           });
         }
-        this._oConfigModel.setProperty(
-          "/newProduct",
-          this._getAddNewProductDialogInitialData()
-        );
+        this._oDialog.bindObject({
+          path: "/newProduct",
+          model: "configModel",
+        });
+
+        const isEditing = !!oContext;
+
+        this._oConfigModel.setProperty("/isDialogInEditMode", isEditing);
+
+        let dialogData;
+        if (isEditing) {
+          dialogData = this._getDialogFormData(oContext);
+          this._oConfigModel.setProperty(
+            "/editProductPath",
+            oContext.getPath()
+          );
+        } else {
+          dialogData = this._getDialogFormData();
+          this._oConfigModel.setProperty("/editProductPath", "");
+        }
+
+        this._oConfigModel.setProperty("/newProduct", dialogData);
         this._oDialog.open();
       },
 
@@ -127,33 +164,57 @@ sap.ui.define(
         );
       },
 
-      onAddNewProductDialogAddButtonPress() {
+      onProductFormDialogAddButtonPress() {
         if (this._validateForm()) {
           this._onCreateNewProduct();
         }
       },
 
-      _onCreateNewProduct() {
-        const oModel = this.getModel("ODataV2");
-        const oNewProduct = this._oConfigModel.getProperty("/newProduct");
-        const oPayload = {
-          Name: oNewProduct.name.value,
-          Description: oNewProduct.description.value,
-          ReleaseDate: new Date(oNewProduct.releaseDate.value),
-          Rating: parseInt(oNewProduct.rating.value, 10),
-          Price: parseFloat(oNewProduct.price.value),
-        };
+      onProductFormDialogSaveButtonPress() {
+        if (this._validateForm()) {
+          this._onUpdateProduct();
+        }
+      },
 
-        oModel.create("/Products", oPayload, {
+      _onUpdateProduct() {
+        const oModel = this.getModel("ODataV2");
+        const sEditPath = this._oConfigModel.getProperty("/editProductPath");
+        const oNewProduct = this._oConfigModel.getProperty("/newProduct");
+        const oPayload = this._getPayload(oNewProduct);
+        oModel.update(sEditPath, oPayload, {
           success: () => {
-            this._showMessageToast("addNewProductDialogProductCreatedSuccess");
+            this._showMessageToast("productFormDialogProductUpdatedSuccess");
             this._oDialog.close();
           },
           error: (oError) => MessageBox.error(oError.message),
         });
       },
 
-      onAddNewProductDialogCancelButtonPress() {
+      _onCreateNewProduct() {
+        const oModel = this.getModel("ODataV2");
+        const oNewProduct = this._oConfigModel.getProperty("/newProduct");
+        const oPayload = this._getPayload(oNewProduct);
+
+        oModel.create("/Products", oPayload, {
+          success: () => {
+            this._showMessageToast("productFormDialogProductCreatedSuccess");
+            this._oDialog.close();
+          },
+          error: (oError) => MessageBox.error(oError.message),
+        });
+      },
+
+      _getPayload(oNewProduct) {
+        return {
+          Name: oNewProduct.name.value,
+          Description: oNewProduct.description.value,
+          ReleaseDate: new Date(oNewProduct.releaseDate.value),
+          Rating: parseInt(oNewProduct.rating.value, 10),
+          Price: parseFloat(oNewProduct.price.value),
+        };
+      },
+
+      onDialogCancelButtonPress() {
         this._oDialog.close();
       },
 
