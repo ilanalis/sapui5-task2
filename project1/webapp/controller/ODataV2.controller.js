@@ -4,8 +4,17 @@ sap.ui.define(
     "sap/m/MessageToast",
     "sap/m/MessageBox",
     "sap/ui/model/json/JSONModel",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
   ],
-  (BaseController, MessageToast, MessageBox, JSONModel) => {
+  (
+    BaseController,
+    MessageToast,
+    MessageBox,
+    JSONModel,
+    Filter,
+    FilterOperator
+  ) => {
     "use strict";
 
     return BaseController.extend("project1.controller.ODataV2", {
@@ -20,6 +29,18 @@ sap.ui.define(
           editProductPath: "",
         });
         this.getView().setModel(this._oConfigModel, "configModel");
+      },
+
+      onFilterProductsByProductName(oEvent) {
+        const aFilter = [];
+        const sQuery = oEvent.getParameter("newValue");
+        if (sQuery) {
+          aFilter.push(new Filter("Name", FilterOperator.Contains, sQuery));
+        }
+
+        const oList = this.byId("ODataV2List");
+        const oBinding = oList.getBinding("items");
+        oBinding.filter(aFilter);
       },
 
       _getDialogFormData(oContext) {
