@@ -15,9 +15,19 @@
         <Title text="{i18n>tableProductsTitle}"/>
         <ToolbarSpacer/>
         <SearchField 
-            placeholder="{i18n>searchFieldPlaceholderText}"
-            width="50%"
-            liveChange=".onFilterProductsByProductName"/>
+                  placeholder="{i18n>searchFieldPlaceholderText}"
+                  width="50%"
+                  liveChange=".onFilterProductsByProductName"/>
+        <Label text="{i18n>comboBoxLabelText}" labelFor="sortCombo"/>
+        <ComboBox id="sortCombo" placeholder="{i18n>comboBoxPlaceholderText}" selectionChange=".onSorterProducts">
+          <items>
+            <core:Item key="Name" text="{i18n>comboBoxItemName}"></core:Item>
+            <core:Item key="Description" text="{i18n>comboBoxItemDescription}"></core:Item>
+            <core:Item key="ReleaseDate" text="{i18n>comboBoxItemReleaseDate}"></core:Item>
+            <core:Item key="Rating" text="{i18n>comboBoxItemRating}"></core:Item>
+            <core:Item key="Price" text="{i18n>comboBoxItemPrice}"></core:Item>
+          </items>
+        </ComboBox>
         <Button text="{i18n>addProductButtonText}" press=".onAddNewProductButtonPress"/>
         <Button text="{i18n>deleteProductButtonText}" press=".onDeleteProductButtonPress" enabled="{= !!${configModel>/isDeleteButtonEnabled}}"/>
       </Toolbar>
