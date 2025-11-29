@@ -6,6 +6,7 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
+    "sap/ui/model/Sorter",
   ],
   (
     BaseController,
@@ -13,7 +14,8 @@ sap.ui.define(
     MessageBox,
     JSONModel,
     Filter,
-    FilterOperator
+    FilterOperator,
+    Sorter
   ) => {
     "use strict";
 
@@ -41,6 +43,14 @@ sap.ui.define(
         const oList = this.byId("ODataV2List");
         const oBinding = oList.getBinding("items");
         oBinding.filter(aFilter);
+      },
+
+      onSorterProducts(oEvent) {
+        const oSelectedItem = oEvent.getParameter("selectedItem");
+        const sSortPath = oSelectedItem.getKey();
+        const oList = this.byId("ODataV2List");
+        const oBinding = oList.getBinding("items");
+        oBinding.sort([new Sorter(sSortPath, true)]);
       },
 
       _getDialogFormData(oContext) {
