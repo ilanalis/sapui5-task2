@@ -107,12 +107,21 @@
           "name": "tab",
           "pattern": "tab/{tabName}",
           "target": ["TargetMain"]
+        },
+        {
+          "pattern": "Product/{productPath}",
+          "name": "product",
+          "target": "Product"
         }
       ],
       "targets": {
         "TargetMain": {
           "id": "Main",
           "name": "Main"
+        },
+        "Product": {
+          "id": "Product",
+          "name": "Product"
         }
       }
     },

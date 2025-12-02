@@ -53,7 +53,9 @@
       </Column>
     </columns>
     <items>
-      <ColumnListItem >
+      <ColumnListItem 
+        type="Navigation"
+        press=".onProductPress">
         <cells>
           <ObjectIdentifier title="{ODataV2>Name}"/>
           <Text text="{ODataV2>Description}"/>
