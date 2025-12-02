@@ -4,15 +4,17 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
   <Page id="page" title="{i18n>title}">
-    <IconTabBar >
+    <IconTabBar 
+      id="mainIconTabBar"
+      select=".onFilterSelect">
       <items>
-        <IconTabFilter  text="{i18n>tabJSONModelText}">
+        <IconTabFilter key="JSONModel" text="{i18n>tabJSONModelText}">
           <mvc:XMLView viewName="project1.view.JSONModel"/>
         </IconTabFilter>
-        <IconTabFilter text="{i18n>tabODataV2Text}">
+        <IconTabFilter key="ODataV2" text="{i18n>tabODataV2Text}">
           <mvc:XMLView viewName="project1.view.ODataV2"/>
         </IconTabFilter >
-        <IconTabFilter  text="{i18n>tabODataV4Text}">
+        <IconTabFilter key="ODataV4" text="{i18n>tabODataV4Text}">
           <mvc:XMLView viewName="project1.view.ODataV4"/>
         </IconTabFilter>
       </items>

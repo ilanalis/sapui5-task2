@@ -102,6 +102,11 @@
           "name": "RouteMain",
           "pattern": ":?query:",
           "target": ["TargetMain"]
+        },
+        {
+          "name": "tab",
+          "pattern": "tab/{tabName}",
+          "target": ["TargetMain"]
         }
       ],
       "targets": {
