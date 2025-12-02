@@ -272,6 +272,16 @@ sap.ui.define(
       onProductsTableSelectionChange(oEvent) {
         this.handleTableSelectionChange(oEvent, "configModel");
       },
+
+      onProductPress(oEvent) {
+        const oItemCtx = oEvent.getSource().getBindingContext("ODataV2");
+        const oRouter = this.getOwnerComponent().getRouter();
+        const sId = oItemCtx.getProperty("ID");
+
+        oRouter.navTo("product", {
+          productPath: sId,
+        });
+      },
     });
   }
 );
