@@ -1,7 +1,146 @@
-<mvc:View 
+<mvc:View xmlns:table="sap.ui.table" 
+    xmlns="sap.uxap" 
     xmlns:core="sap.ui.core" 
-    controllerName="project1.controller.Product"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <Text text="product"/>
+    xmlns:m="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    
+    controllerName="project1.controller.Product">
+    <m:Page 
+        showNavButton="true"
+        navButtonPress=".onNavBack">
+        <ObjectPageLayout >
+            <headerTitle >
+                <ObjectPageHeader objectTitle="{ODataV2>Name}"/>
+            </headerTitle>
+            <sections>
+                <ObjectPageSection title="{i18n>productInfoSectionTitle}">
+                    <subSections>
+                        <ObjectPageSubSection >
+                        <actions>
+                        	<m:Button text="{i18n>editProductButtonText}" press=".onEdit"  visible="{= !${view>/isEditMode}}"/>
+                            <m:Button text="{i18n>saveChangesButtonText}" press=".onSave" visible="{view>/isEditMode}" type="Emphasized"/>
+                            <m:Button text="{i18n>cancelChangesButtonText}" press=".onCancel" visible="{view>/isEditMode}"/>
+                        </actions>
+                            <f:SimpleForm id="productForm">
+                            <m:Label text="{i18n>nameLabelText}"/>
+                                <m:VBox >
+                                    <m:Text text="{ODataV2>Name}" visible="{= !${view>/isEditMode}}"/>
+                                    <m:Input  
+                                        value="{ODataV2>Name}" 
+                                        visible="{view>/isEditMode}" 
+                                        required="true"
+                                        placeholder="{i18n>productFormPlaceholderName}"
+                                        valueStateText="{i18n>textInputValueStateErrorText}"
+                                        liveChange=".onTextInputLiveChange"
+                                        fieldGroupIds="productUpdate"/>
+                                </m:VBox>
+                                <m:Label text="{i18n>descriptionLabelText}"/>
+                                <m:VBox >
+                                    <m:Text text="{ODataV2>Description}" visible="{= !${view>/isEditMode}}"/>
+                                    <m:Input 
+                                        value="{ODataV2>Description}" 
+                                        visible="{view>/isEditMode}"
+                                        required="true"
+                                        placeholder="{i18n>productFormPlaceholderDescription}"
+                                        valueStateText="{i18n>textInputValueStateErrorText}"
+                                        liveChange=".onTextInputLiveChange"
+                                        fieldGroupIds="productUpdate"/>
+                                </m:VBox>
+                                <m:Label text="{i18n>releaseDateLabelText}"/>
+                                <m:VBox >
+                                     <m:Text 
+                                        text="{
+                                            path: 'ODataV2>ReleaseDate',
+                                            type: 'sap.ui.model.type.Date',
+                                            formatOptions: {
+                                                pattern: 'yyyy',
+                                                UTC: true}
+                                            }"
+                                        visible="{= !${view>/isEditMode}}"
+                                    />
+                                    <m:DatePicker
+                                        required="true" 
+                                        value="{
+                                            path: 'ODataV2>ReleaseDate',
+                                            type: 'sap.ui.model.type.Date',  
+                                            formatOptions: {
+                                                    pattern: 'yyyy-MM-dd'        
+                                            }
+                                        }"
+                                        visible="{view>/isEditMode}"
+                                        placeholder="{i18n>productFormPlaceholderReleaseDate}"
+                                        valueStateText="{i18n>datePickerInputValueStateErrorText}"
+                                        change=".onReleaseDateChange"
+                                        fieldGroupIds="productUpdate"/>
+                                </m:VBox>
+                                <m:Label text="{i18n>ratingLabelText}" />
+                                <m:RatingIndicator 
+                                    maxValue="5"  
+                                    value="{ODataV2>Rating}"
+                                    iconSize="1rem"
+                                    enabled="{view>/isEditMode}"
+                                    displayOnly="{= !${view>/isEditMode}}"
+                                    change=".onRatingChange"
+                                    fieldGroupIds="productUpdate"/>
+                                <m:Label text="{i18n>priceLabelText}"/>
+                                <m:VBox >
+                                    <m:Text
+                                        text="{
+                                            parts: [
+                                                { path: 'ODataV2>Price' },
+                                                { path: 'view>/currency' }
+                                            ],
+                                            type: 'sap.ui.model.type.Currency',
+                                            formatOptions: {
+                                                showMeasure: true
+                                            }
+                                        }"
+                                        visible="{= !${view>/isEditMode}}"
+                                        
+                                    />
+                                    <m:Input
+                                        value="{ODataV2>Price}"
+                                        visible="{view>/isEditMode}"
+                                        required="true" 
+                                        type="Number"
+                                        placeholder="{i18n>productFormPlaceholderPrice}"
+                                        valueStateText="{i18n>priceInputValueStateErrorText}"
+                                        liveChange=".onPriceInputLiveChange"
+                                        fieldGroupIds="productUpdate"/>
+                                </m:VBox >
+
+                            </f:SimpleForm>
+                        </ObjectPageSubSection>
+                    </subSections>
+                </ObjectPageSection>
+                <ObjectPageSection  title="{i18n>supplierSectionTitle}">
+                    <subSections>
+                        <ObjectPageSubSection >
+                            <m:Table >
+                                <m:columns>
+                                    <m:Column >
+                                        <m:Text text="{i18n>supplierColumnName}"/>
+                                    </m:Column>
+                                    <m:Column>
+                                        <m:Text text="{i18n>addressColumnTitle}"/>
+                                    </m:Column>
+                                </m:columns>
+                                <m:items>
+                                    <m:ColumnListItem >
+                                        <m:cells>
+                                            <m:ObjectIdentifier title="{ODataV2>Supplier/Name}"/>
+                                            <m:Text 
+                                                core:require="{Formatter: 'project1/model/formatter'}" 
+                                                text="{path: 'ODataV2>Supplier/Address', formatter: 'Formatter.formatAddress'}"/>
+                                        </m:cells>
+                                    </m:ColumnListItem>
+                                </m:items>
+                            </m:Table>
+                        </ObjectPageSubSection>
+                    </subSections>
+                </ObjectPageSection>
+            </sections>
+        </ObjectPageLayout>
+    </m:Page>
 </mvc:View>

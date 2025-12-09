@@ -11,5 +11,14 @@ sap.ui.define(["sap/ui/core/mvc/Controller"], (Controller) => {
         !!oEvent.getSource().getSelectedItems().length
       );
     },
+
+    submitODataChanges(oModel) {
+      return new Promise((resolve, reject) => {
+        oModel.submitChanges({
+          success: resolve,
+          error: reject,
+        });
+      });
+    },
   });
 });

@@ -55,7 +55,8 @@
       "minUI5Version": "1.142.0",
       "libs": {
         "sap.m": {},
-        "sap.ui.core": {}
+        "sap.ui.core": {},
+        "sap.uxap": {}
       }
     },
     "contentDensities": {
@@ -71,7 +72,11 @@
       },
       "ODataV2": {
         "dataSource": "ODataV2",
-        "type": "sap.ui.model.odata.v2.ODataModel"
+        "type": "sap.ui.model.odata.v2.ODataModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "defaultUpdateMethod": "PUT"
+        }
       },
       "ODataV4": {
         "dataSource": "ODataV4",
@@ -109,7 +114,7 @@
           "target": ["TargetMain"]
         },
         {
-          "pattern": "Product/{productPath}",
+          "pattern": "Product/{productPath}/:mode:",
           "name": "product",
           "target": "Product"
         }
