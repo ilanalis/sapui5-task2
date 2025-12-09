@@ -4,9 +4,10 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/routing/History",
     "sap/m/MessageToast",
+    "sap/m/MessageBox",
     "../model/constants",
   ],
-  (BaseController, JSONModel, History, MessageToast, constants) => {
+  (BaseController, JSONModel, History, MessageToast, MessageBox, constants) => {
     "use strict";
 
     return BaseController.extend("project1.controller.Product", {
@@ -53,6 +54,7 @@ sap.ui.define(
       },
 
       onEdit() {
+        this._resetForm();
         this._setEditMode(true);
       },
 
@@ -77,8 +79,8 @@ sap.ui.define(
           await this.submitODataChanges(oModel);
           this._showMessageToast("productUpdatedSuccess");
           this._setEditMode(false);
-        } catch (e) {
-          this._showMessageToast("productUpdatedError");
+        } catch (oError) {
+          MessageBox.error(oError.message);
         }
       },
 
@@ -98,6 +100,17 @@ sap.ui.define(
 
       _showMessageToast(sKey) {
         MessageToast.show(this._oResourceBundle.getText(sKey));
+      },
+
+      _resetForm() {
+        const oProductForm = this.byId("productForm");
+        const aInputs = oProductForm.getControlsByFieldGroupId("productUpdate");
+
+        aInputs.forEach(function (oControl) {
+          if (oControl.getValueState) {
+            oControl.setValueState("None");
+          }
+        });
       },
 
       _validateForm() {
