@@ -7,33 +7,33 @@
         title="{i18n>productFormDialogTitle}">
             <form:SimpleForm >
                   <Label 
-                        text="{i18n>productFormDialogLabelName}" 
+                        text="{i18n>productFormLabelName}" 
                         labelFor="productNameInput"/>
                   <Input 
                         id="productNameInput"
                         value="{configModel>name/value}" 
-                        placeholder="{i18n>productFormDialogPlaceholderName}"
+                        placeholder="{i18n>productFormPlaceholderName}"
                         required="true" 
                         valueState="{configModel>name/valueState}"
                         valueStateText="{i18n>textInputValueStateErrorText}"
                         liveChange=".onTextInputLiveChange"/>
                   <Label 
-                        text="{i18n>productFormDialogLabelDescription}" 
+                        text="{i18n>productFormLabelDescription}" 
                         labelFor="productDescriptionInput" />
                   <Input 
                         id="productDescriptionInput"
                         value="{configModel>description/value}" 
-                        placeholder="{i18n>productFormDialogPlaceholderDescription}"
+                        placeholder="{i18n>productFormPlaceholderDescription}"
                         required="true" 
                         valueState="{configModel>description/valueState}"
                         valueStateText="{i18n>textInputValueStateErrorText}"
                         liveChange=".onTextInputLiveChange"/>
                   <Label 
-                        text="{i18n>productFormDialogLabelReleaseDate}" 
+                        text="{i18n>productFormLabelReleaseDate}" 
                         labelFor="productReleaseDateInput"/>
                   <DatePicker
                         id="productReleaseDateInput"
-                        placeholder="{i18n>productFormDialogPlaceholderReleaseDate}"
+                        placeholder="{i18n>productFormPlaceholderReleaseDate}"
                         required="true" 
                         valueState="{configModel>releaseDate/valueState}"
                         valueStateText="{i18n>datePickerInputValueStateErrorText}"
@@ -46,26 +46,26 @@
                               }
                         }"/>
                   <Label 
-                        text="{i18n>productFormDialogLabelRating}" 
+                        text="{i18n>productFormLabelRating}" 
                         labelFor="productRatingInput"/>
                   <Input
                         id="productRatingInput"
                         type="Number"
                         value="{configModel>rating/value}"
-                        placeholder="{i18n>productFormDialogPlaceholderRating}"
+                        placeholder="{i18n>productFormPlaceholderRating}"
                         required="true" 
                         valueState="{configModel>rating/valueState}"
-                        valueStateText="{i18n>productFormDialogRatingOutOfRangeError}"
+                        valueStateText="{i18n>productFormRatingOutOfRangeError}"
                         liveChange=".onRatingInputLiveChange"
                         />
                   <Label 
-                        text="{i18n>productFormDialogLabelPrice}" 
+                        text="{i18n>productFormLabelPrice}" 
                         labelFor="productPriceInput"/>
                   <Input 
                         id="productPriceInput"
                         value="{configModel>price/value}" 
                         type="Number"
-                        placeholder="{i18n>productFormDialogPlaceholderPrice}"
+                        placeholder="{i18n>productFormPlaceholderPrice}"
                         required="true" 
                         valueState="{configModel>price/valueState}"
                         valueStateText="{i18n>priceInputValueStateErrorText}"

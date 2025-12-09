@@ -16,5 +16,10 @@ sap.ui.define([], () => {
         day: "2-digit",
       });
     },
+
+    formatAddress(oAddress) {
+      if (!oAddress) return "";
+      return `${oAddress.Street}, ${oAddress.City}, ${oAddress.State} ${oAddress.ZipCode}, ${oAddress.Country}`;
+    },
   };
 });

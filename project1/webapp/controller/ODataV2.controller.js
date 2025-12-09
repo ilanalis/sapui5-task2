@@ -7,6 +7,7 @@ sap.ui.define(
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/model/Sorter",
+    "../model/constants",
   ],
   (
     BaseController,
@@ -15,7 +16,8 @@ sap.ui.define(
     JSONModel,
     Filter,
     FilterOperator,
-    Sorter
+    Sorter,
+    constants
   ) => {
     "use strict";
 
@@ -280,6 +282,7 @@ sap.ui.define(
 
         oRouter.navTo("product", {
           productPath: sId,
+          mode: constants.APP_MODE.DISPLAY,
         });
       },
     });
