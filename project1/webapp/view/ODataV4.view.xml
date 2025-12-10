@@ -1,4 +1,5 @@
 <mvc:View 
+    controllerName="project1.controller.ODataV4"
     xmlns:core="sap.ui.core" 
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
@@ -9,11 +10,12 @@
             templateShareable: false
            }"
         mode="MultiSelect"
-        selectionChange=".onBooksTableSelectionChange"
-        >
+        selectionChange=".onProductsTableSelectionChange">
     <headerToolbar>
       <Toolbar >
         <Title text="{i18n>tableProductsTitle}"/>
+        <ToolbarSpacer/>
+        <Button text="{i18n>deleteProductButtonText}" press=".onDeleteProductButtonPress" enabled="{= !!${configModel>/isDeleteButtonEnabled}}"/>
       </Toolbar>
     </headerToolbar>
     <columns>
