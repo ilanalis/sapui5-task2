@@ -80,7 +80,12 @@
       },
       "ODataV4": {
         "dataSource": "ODataV4",
-        "type": "sap.ui.model.odata.v4.ODataModel"
+        "type": "sap.ui.model.odata.v4.ODataModel",
+        "settings": {
+          "synchronizationMode": "None",
+          "groupId": "$auto",
+          "updateGroupId": "$auto"
+        }
       }
     },
     "resources": {
