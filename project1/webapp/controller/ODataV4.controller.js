@@ -31,7 +31,7 @@ sap.ui.define(
         };
       },
 
-      async onDeleteProductButtonPress() {
+      async _deleteSelectedRecords() {
         const oModel = this.getModel("ODataV4");
         const oProductsList = this.byId("ODataV4List");
         const aSelectedProducts = oProductsList.getSelectedItems();
@@ -42,20 +42,34 @@ sap.ui.define(
         try {
           aSelectedProductsContexts.map((ctx) => ctx.delete());
           await oModel.submitBatch("updateGroup");
-          MessageToast.show(
-            this._oResourceBundle.getText("recordsDeletedSuccess")
-          );
+          this._showMessageToast("recordsDeletedSuccess");
           oProductsList.removeSelections(true);
+          this._oConfigModel.setProperty("/isDeleteButtonEnabled", false);
         } catch (oError) {
           MessageBox.error(oError.message);
         }
+      },
+
+      onDeleteProductButtonPress() {
+        MessageBox.confirm(
+          this._oResourceBundle.getText("deleteRecordsConfirmationText"),
+          {
+            actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+            emphasizedAction: MessageBox.Action.YES,
+            onClose: (sAction) => {
+              if (sAction === MessageBox.Action.YES) {
+                this._deleteSelectedRecords();
+              }
+            },
+          }
+        );
       },
 
       onProductsTableSelectionChange(oEvent) {
         this.handleTableSelectionChange(oEvent, "configModel");
       },
 
-      async onAddNewProductButtonPress() {
+      onAddNewProductButtonPress() {
         const oModel = this.getModel("ODataV4");
         const oCreatedContext = oModel
           .bindList("/Products", null, null, null, {
@@ -73,7 +87,6 @@ sap.ui.define(
             name: "project1.view.fragment.ProductFormV4Dialog",
           });
         }
-
         const sDialogTitle = this._oConfigModel.getProperty(
           "/isDialogInEditMode"
         )
@@ -81,6 +94,7 @@ sap.ui.define(
           : this._oResourceBundle.getText("createProductDialogTitle");
 
         this._oDialog.setTitle(sDialogTitle);
+        this._resetForm();
         this._oDialog.setBindingContext(oContext, "ODataV4");
         this._oDialog.open();
       },
@@ -104,8 +118,6 @@ sap.ui.define(
       },
 
       async onDialogCancelButtonPress() {
-        const oDialogContext = this._oDialog.getBindingContext("ODataV4");
-        await oDialogContext.delete();
         this._oDialog.close();
       },
 
@@ -141,23 +153,36 @@ sap.ui.define(
 
       _validateForm() {
         const oProductForm = this.byId("productFormV4");
-        const aInputs = oProductForm.getControlsByFieldGroupId("productData");
+        const aInputs = oProductForm.getContent();
         var bIsValid = true;
 
         aInputs.forEach(function (oControl) {
-          if (oControl.getValueState) {
-            if (
-              !oControl.isA("sap.m.RatingIndicator") &&
-              !oControl.getValue()?.trim()
-            ) {
-              oControl.setValueState("Error");
-            }
-            if (oControl.getValueState() !== "None") {
-              bIsValid = false;
-            }
+          if (
+            !oControl.isA("sap.m.Label") &&
+            oControl.getRequired() &&
+            !oControl.getValue().trim()
+          ) {
+            oControl.setValueState("Error");
+          }
+          if (
+            oControl.isA("sap.m.Input") &&
+            oControl.getValueState() !== "None"
+          ) {
+            bIsValid = false;
           }
         });
         return bIsValid;
+      },
+
+      _resetForm() {
+        const oProductForm = this.byId("productFormV4");
+        const aInputs = oProductForm.getContent();
+
+        aInputs.forEach(function (oControl) {
+          if (oControl.getValueState) {
+            oControl.setValueState("None");
+          }
+        });
       },
 
       _showMessageToast(sKey) {

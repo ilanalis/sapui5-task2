@@ -51,7 +51,6 @@
             <RatingIndicator 
                 id="ratingInputV4"
                 maxValue="5"  
-                required="true"
                 value="{ODataV4>Rating}"
                 iconSize="1rem"
                 editable="true"
