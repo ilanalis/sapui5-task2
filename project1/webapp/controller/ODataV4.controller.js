@@ -69,6 +69,13 @@ sap.ui.define(
         this.handleTableSelectionChange(oEvent, "configModel");
       },
 
+      onEditProductButtonPress(oEvent) {
+        this._oConfigModel.setProperty("/isDialogInEditMode", true);
+        this._openProductFormDialog(
+          oEvent.getSource().getBindingContext("ODataV4")
+        );
+      },
+
       onAddNewProductButtonPress() {
         const oModel = this.getModel("ODataV4");
         const oCreatedContext = oModel
@@ -99,7 +106,7 @@ sap.ui.define(
         this._oDialog.open();
       },
 
-      async onDialogAddButtonPress() {
+      async onDialogSaveButtonPress() {
         const oModel = this.getModel("ODataV4");
 
         if (!this._validateForm()) {
@@ -118,6 +125,14 @@ sap.ui.define(
       },
 
       async onDialogCancelButtonPress() {
+        if (this._oConfigModel.getProperty("/isDialogInEditMode")) {
+          const oModel = this.getModel("ODataV4");
+          oModel.resetChanges("updateGroup");
+        } else {
+          const oDialogContext = this._oDialog.getBindingContext("ODataV4");
+          await oDialogContext.delete();
+        }
+
         this._oDialog.close();
       },
 
