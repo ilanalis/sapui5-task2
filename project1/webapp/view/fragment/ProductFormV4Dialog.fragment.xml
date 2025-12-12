@@ -1,0 +1,79 @@
+<core:FragmentDefinition xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Dialog 
+        id="productFormV4Dialog">
+        <form:SimpleForm
+            id="productFormV4">
+            <Label 
+                text="{i18n>productFormLabelName}" 
+                labelFor="nameInputV4">
+            </Label>
+            <Input 
+                id="nameInputV4"  
+                value="{ODataV4>Name}" 
+				placeholder="{i18n>addNewRecordDialogPlaceholderName}"
+                required="true"
+                liveChange=".onTextInputLiveChange"
+                fieldGroupIds="productData"/>
+            <Label 
+                text="{i18n>productFormLabelDescription}" 
+                labelFor="descriptionInputV4"/>
+            <Input 
+                id="descriptionInputV4"
+                value="{ODataV4>Description}" 
+                placeholder="{i18n>productFormPlaceholderDescription}"
+                required="true" 
+                valueStateText="{i18n>textInputValueStateErrorText}"
+                liveChange=".onTextInputLiveChange"
+                fieldGroupIds="productData"/>
+            <Label 
+                text="{i18n>productFormLabelReleaseDate}" 
+                labelFor="releaseDateInputV4"/>
+            <DatePicker
+                id="releaseDateInputV4"
+                required="true"
+                value="{
+                    path: 'ODataV4>ReleaseDate',
+                    type: 'sap.ui.model.odata.type.DateTimeOffset',
+                    formatOptions: {
+                        showTime: false 
+                    }
+                }"
+                displayFormat="yyyy-MM-dd"
+                placeholder="{i18n>productFormPlaceholderReleaseDate}"
+                valueStateText="{i18n>datePickerInputValueStateErrorText}"
+                change=".onReleaseDateChange"
+                fieldGroupIds="productData"/>
+            <Label 
+                text="{i18n>productFormLabelRating}" 
+                labelFor="ratingInputV4"/>
+            <RatingIndicator 
+                id="ratingInputV4"
+                maxValue="5"  
+                value="{ODataV4>Rating}"
+                iconSize="1rem"
+                editable="true"
+                change=".onRatingChange"
+                fieldGroupIds="productData"/>
+            <Label 
+                text="{i18n>productFormLabelPrice}" 
+                labelFor="priceInputV4"/>
+            <Input 
+                id="priceInputV4"
+                value="{ODataV4>Price}"
+                type="Number"
+                placeholder="{i18n>productFormPlaceholderPrice}"
+                required="true" 
+                valueStateText="{i18n>priceInputValueStateErrorText}"
+                liveChange=".onPriceInputLiveChange"
+                fieldGroupIds="productData"/>
+        </form:SimpleForm>
+        <beginButton>
+            <Button text="{i18n>productFormDialogAddButtonText}" press=".onDialogAddButtonPress"/>
+        </beginButton>
+        <endButton>
+            <Button text="{i18n>productFormDialogCancelButtonText}" press=".onDialogCancelButtonPress"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

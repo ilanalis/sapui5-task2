@@ -7,7 +7,10 @@
         id="ODataV4List" 
         items="{
             path: 'ODataV4>/Products',
-            templateShareable: false
+            templateShareable: false,
+            parameters: {
+              $$updateGroupId: 'updateGroup'
+            }
            }"
         mode="MultiSelect"
         selectionChange=".onProductsTableSelectionChange">
@@ -15,6 +18,7 @@
       <Toolbar >
         <Title text="{i18n>tableProductsTitle}"/>
         <ToolbarSpacer/>
+        <Button text="{i18n>addProductButtonText}" press=".onAddNewProductButtonPress"/>
         <Button text="{i18n>deleteProductButtonText}" press=".onDeleteProductButtonPress" enabled="{= !!${configModel>/isDeleteButtonEnabled}}"/>
       </Toolbar>
     </headerToolbar>
