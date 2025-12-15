@@ -135,8 +135,12 @@ sap.ui.define(
           const oModel = this.getModel("ODataV4");
           oModel.resetChanges("updateGroup");
         } else {
-          const oDialogContext = this._oDialog.getBindingContext("ODataV4");
-          await oDialogContext.delete();
+          try {
+            const oDialogContext = this._oDialog.getBindingContext("ODataV4");
+            await oDialogContext.delete();
+          } catch {
+            console.error("Failed to delete product:", oError);
+          }
         }
 
         this._oDialog.close();
