@@ -84,6 +84,12 @@ sap.ui.define(
           })
           .create(this._getInitialProductData(), true);
 
+        oCreatedContext.created().catch((oError) => {
+          if (oError.canceled) {
+            console.log("Product creation was canceled");
+          }
+        });
+
         this._oConfigModel.setProperty("/isDialogInEditMode", false);
         this._openProductFormDialog(oCreatedContext);
       },
