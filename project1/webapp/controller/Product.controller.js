@@ -2,12 +2,11 @@ sap.ui.define(
   [
     "project1/controller/BaseController",
     "sap/ui/model/json/JSONModel",
-    "sap/ui/core/routing/History",
     "sap/m/MessageToast",
     "sap/m/MessageBox",
     "../model/constants",
   ],
-  (BaseController, JSONModel, History, MessageToast, MessageBox, constants) => {
+  (BaseController, JSONModel, MessageToast, MessageBox, constants) => {
     "use strict";
 
     return BaseController.extend("project1.controller.Product", {
@@ -36,6 +35,9 @@ sap.ui.define(
           path: sPath,
           model: "ODataV2",
           parameters: { expand: "Supplier" },
+          events: {
+            change: this._onBindingChange.bind(this),
+          },
         });
         const sMode = oEvent.getParameter("arguments").mode;
         this.oViewModel.setProperty(
@@ -44,15 +46,10 @@ sap.ui.define(
         );
       },
 
-      onNavBack() {
-        const oHistory = History.getInstance();
-        const sPreviousHash = oHistory.getPreviousHash();
-
-        if (sPreviousHash !== undefined) {
-          window.history.go(-1);
-        } else {
+      _onBindingChange() {
+        if (!this.getView().getBindingContext("ODataV2")) {
           const oRouter = this.getOwnerComponent().getRouter();
-          oRouter.navTo("tab", { tabName: "ODataV2" }, true);
+          oRouter.getTargets().display("NotFound");
         }
       },
 

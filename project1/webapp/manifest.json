@@ -105,7 +105,9 @@
         "viewType": "XML",
         "path": "project1.view",
         "async": true,
-        "viewPath": "project1.view"
+        "bypassed": {
+          "target": "NotFound"
+        }
       },
       "routes": [
         {
@@ -132,6 +134,11 @@
         "Product": {
           "id": "Product",
           "name": "Product"
+        },
+        "NotFound": {
+          "id": "NotFound",
+          "name": "NotFound",
+          "viewType": "XML"
         }
       }
     },
