@@ -27,17 +27,20 @@ sap.ui.define(
       },
 
       onObjectMatched(oEvent) {
+        const sID = window.decodeURIComponent(
+          oEvent.getParameter("arguments").productPath,
+        );
+        const oModel = this.getView().getModel("ODataV2");
+        const sPath = oModel.createKey("/Products", { ID: sID });
         this.getView().bindElement({
-          path: `/Products(${window.decodeURIComponent(
-            oEvent.getParameter("arguments").productPath
-          )})`,
+          path: sPath,
           model: "ODataV2",
           parameters: { expand: "Supplier" },
         });
         const sMode = oEvent.getParameter("arguments").mode;
         this.oViewModel.setProperty(
           "/isEditMode",
-          sMode === constants.APP_MODE.EDIT
+          sMode === constants.APP_MODE.EDIT,
         );
       },
 
@@ -89,12 +92,16 @@ sap.ui.define(
         const sId = oContext.getProperty("ID");
         const oRouter = this.getOwnerComponent().getRouter();
 
-        oRouter.navTo("product", {
-          productPath: sId,
-          mode: bIsEditMode
-            ? constants.APP_MODE.EDIT
-            : constants.APP_MODE.DISPLAY,
-        });
+        oRouter.navTo(
+          "product",
+          {
+            productPath: sId,
+            mode: bIsEditMode
+              ? constants.APP_MODE.EDIT
+              : constants.APP_MODE.DISPLAY,
+          },
+          true,
+        );
         this.oViewModel.setProperty("/isEditMode", bIsEditMode);
       },
 
@@ -158,5 +165,5 @@ sap.ui.define(
         }
       },
     });
-  }
+  },
 );
