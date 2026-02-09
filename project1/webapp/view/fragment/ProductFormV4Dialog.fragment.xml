@@ -70,7 +70,7 @@
                 fieldGroupIds="productData"/>
         </form:SimpleForm>
         <beginButton>
-            <Button text="{i18n>productFormDialogAddButtonText}" press=".onDialogAddButtonPress"/>
+            <Button text="{i18n>productFormDialogSaveButtonText}" press=".onDialogSaveButtonPress" type="Emphasized"/>
         </beginButton>
         <endButton>
             <Button text="{i18n>productFormDialogCancelButtonText}" press=".onDialogCancelButtonPress"/>

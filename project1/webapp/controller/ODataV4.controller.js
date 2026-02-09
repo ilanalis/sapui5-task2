@@ -69,6 +69,13 @@ sap.ui.define(
         this.handleTableSelectionChange(oEvent, "configModel");
       },
 
+      onEditProductButtonPress(oEvent) {
+        this._oConfigModel.setProperty("/isDialogInEditMode", true);
+        this._openProductFormDialog(
+          oEvent.getSource().getBindingContext("ODataV4")
+        );
+      },
+
       onAddNewProductButtonPress() {
         const oModel = this.getModel("ODataV4");
         const oCreatedContext = oModel
@@ -76,6 +83,12 @@ sap.ui.define(
             $$updateGroupId: "updateGroup",
           })
           .create(this._getInitialProductData(), true);
+
+        oCreatedContext.created().catch((oError) => {
+          if (oError.canceled) {
+            console.log("Product creation was canceled");
+          }
+        });
 
         this._oConfigModel.setProperty("/isDialogInEditMode", false);
         this._openProductFormDialog(oCreatedContext);
@@ -99,7 +112,7 @@ sap.ui.define(
         this._oDialog.open();
       },
 
-      async onDialogAddButtonPress() {
+      async onDialogSaveButtonPress() {
         const oModel = this.getModel("ODataV4");
 
         if (!this._validateForm()) {
@@ -118,6 +131,18 @@ sap.ui.define(
       },
 
       async onDialogCancelButtonPress() {
+        if (this._oConfigModel.getProperty("/isDialogInEditMode")) {
+          const oModel = this.getModel("ODataV4");
+          oModel.resetChanges("updateGroup");
+        } else {
+          try {
+            const oDialogContext = this._oDialog.getBindingContext("ODataV4");
+            await oDialogContext.delete();
+          } catch {
+            console.error("Failed to delete product:", oError);
+          }
+        }
+
         this._oDialog.close();
       },
 
